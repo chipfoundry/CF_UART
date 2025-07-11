@@ -1,13 +1,14 @@
 /*
-	Copyright 2024 Efabless Corp.
+	Copyright 2024-2025 ChipFoundry, a DBA of Umbralogic Technologies LLC.
 
-	Author: Mohamed Shalan (mshalan@aucegypt.edu)
+	Original Copyright 2025 Efabless Corp.
+	Author: Efabless Corp. (ip_admin@efabless.com)
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
 
-	    http://www.apache.org/licenses/LICENSE-2.0
+	    www.apache.org/licenses/LICENSE-2.0
 
 	Unless required by applicable law or agreed to in writing, software
 	distributed under the License is distributed on an "AS IS" BASIS,

@@ -27,10 +27,10 @@ info:
       + Overrun
       + Receiver timeout
   repo: https://github.com/chipfoundry/CF_UART.git
-  owner: Efabless Corp.
+  owner: ChipFoundry, a DBA of Umbralogic Technologies LLC
   license: APACHE 2.0
-  author: Efabless Corp.
-  email: ip_admin@efabless.com
+  author: ChipFoundry, a DBA of Umbralogic Technologies LLC
+  email: info@chipfoundry.com
   version: v1.3.0
   date: 09-02-2025
   category: digital

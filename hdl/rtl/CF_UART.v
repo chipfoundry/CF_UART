@@ -1,6 +1,7 @@
 /*
-	Copyright 2024 Efabless Corp.
+	Copyright 2024-2025 ChipFoundry, a DBA of Umbralogic Technologies LLC.
 
+	Original Copyright 2024 Efabless Corp.
 	Author: Efabless Corp. (ip_admin@efabless.com)
 
 	Licensed under the Apache License, Version 2.0 (the "License");
