@@ -15,12 +15,12 @@ from uvm.macros.uvm_tlm_defines import uvm_analysis_imp_decl
 uvm_analysis_imp_rx = uvm_analysis_imp_decl("_rx")
 
 
-class EF_UART(UVMComponent):
+class CF_UART(UVMComponent):
     """
     EF UART specific model. every ip should have it's unique model
     """
 
-    def __init__(self, name="EF_UART_Model", parent=None):
+    def __init__(self, name="CF_UART_Model", parent=None):
         super().__init__(name, parent)
         self.analysis_imp_rx = uvm_analysis_imp_rx("model_rx", self)
         self.ip_export = UVMAnalysisExport("model_export", self)
@@ -35,7 +35,7 @@ class EF_UART(UVMComponent):
             uvm_fatal(self.tag, "No json file wrapper regs")
         else:
             self.regs = arr[0]
-        self.tag = "EF_UART_model"
+        self.tag = "CF_UART_model"
         self.fifo_tx = TX_QUEUE(maxsize=16)
         self.fifo_tx_threshold = True
         self.fifo_rx = Queue(maxsize=16)
@@ -215,7 +215,7 @@ class EF_UART(UVMComponent):
         #         uvm_info(self.tag, "[interrupt flag] Disabling TX FIFO thread", UVM_HIGH)
 
 
-uvm_component_utils(EF_UART)
+uvm_component_utils(CF_UART)
 
 
 class Flags:

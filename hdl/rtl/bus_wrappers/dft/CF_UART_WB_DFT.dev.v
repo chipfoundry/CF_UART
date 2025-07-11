@@ -26,7 +26,7 @@
 
 `include			"wb_wrapper.vh"
 
-module EF_UART_WB #( 
+module CF_UART_WB #( 
 	parameter	
 		SC = 8,
 		MDW = 9,
@@ -37,6 +37,7 @@ module EF_UART_WB #(
 	inout VPWR,
 	inout VGND,
 `endif
+	input	wire	sc_testmode,
 	`WB_SLAVE_PORTS,
 	input	wire	[1-1:0]	rx,
 	output	wire	[1-1:0]	tx
@@ -62,7 +63,7 @@ module EF_UART_WB #(
     reg [0:0] GCLK_REG;
     wire clk_g;
 
-    wire clk_gated_en = GCLK_REG[0];
+    wire clk_gated_en = sc_testmode ? 1'b1 : GCLK_REG[0];
     ef_util_gating_cell clk_gate_cell(
         `ifdef USE_POWER_PINS 
         .vpwr(VPWR),
@@ -221,7 +222,7 @@ module EF_UART_WB #(
 
 	assign IRQ = |MIS_REG;
 
-	EF_UART #(
+	CF_UART #(
 		.SC(SC),
 		.MDW(MDW),
 		.GFLEN(GFLEN),

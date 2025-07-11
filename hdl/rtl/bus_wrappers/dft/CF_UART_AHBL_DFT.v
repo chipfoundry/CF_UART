@@ -22,7 +22,7 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-module EF_UART_AHBL #(
+module CF_UART_AHBL #(
     parameter SC = 8,
     MDW = 9,
     GFLEN = 8,
@@ -278,7 +278,7 @@ module EF_UART_AHBL #(
 
   assign IRQ = |MIS_REG;
 
-  EF_UART #(
+  CF_UART #(
       .SC(SC),
       .MDW(MDW),
       .GFLEN(GFLEN),

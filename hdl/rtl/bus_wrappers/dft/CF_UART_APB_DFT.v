@@ -22,23 +22,23 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-module EF_UART_WB #(
+module CF_UART_APB #(
     parameter SC = 8,
     MDW = 9,
     GFLEN = 8,
     FAW = 4
 ) (
 
-    input  wire         clk_i,
-    input  wire         rst_i,
-    input  wire [ 31:0] adr_i,
-    input  wire [ 31:0] dat_i,
-    output wire [ 31:0] dat_o,
-    input  wire [  3:0] sel_i,
-    input  wire         cyc_i,
-    input  wire         stb_i,
-    output reg          ack_o,
-    input  wire         we_i,
+    input  wire         sc_testmode,
+    input  wire         PCLK,
+    input  wire         PRESETn,
+    input  wire         PWRITE,
+    input  wire [ 31:0] PWDATA,
+    input  wire [ 31:0] PADDR,
+    input  wire         PENABLE,
+    input  wire         PSEL,
+    output wire         PREADY,
+    output wire [ 31:0] PRDATA,
     output wire         IRQ,
     input  wire [1-1:0] rx,
     output wire [1-1:0] tx
@@ -64,22 +64,21 @@ module EF_UART_WB #(
   reg [0:0] GCLK_REG;
   wire clk_g;
 
-  wire clk_gated_en = GCLK_REG[0];
+  wire clk_gated_en = sc_testmode ? 1'b1 : GCLK_REG[0];
   ef_util_gating_cell clk_gate_cell (
 
       // USE_POWER_PINS
-      .clk(clk_i),
+      .clk(PCLK),
       .clk_en(clk_gated_en),
       .clk_o(clk_g)
   );
 
   wire           clk = clk_g;
-  wire           rst_n = (~rst_i);
+  wire           rst_n = PRESETn;
 
-  wire           wb_valid = cyc_i & stb_i;
-  wire           wb_we = we_i & wb_valid;
-  wire           wb_re = ~we_i & wb_valid;
-  wire [    3:0] wb_byte_sel = sel_i & {4{wb_we}};
+  wire           apb_valid = PSEL & PENABLE;
+  wire           apb_we = PWRITE & apb_valid;
+  wire           apb_re = ~PWRITE & apb_valid;
 
   wire [ 16-1:0] prescaler;
   wire [  1-1:0] en;
@@ -120,9 +119,9 @@ module EF_UART_WB #(
 
   reg  [   15:0] PR_REG;
   assign prescaler = PR_REG;
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) PR_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == PR_REG_OFFSET)) PR_REG <= dat_i[16-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) PR_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == PR_REG_OFFSET)) PR_REG <= PWDATA[16-1:0];
 
   reg [4:0] CTRL_REG;
   assign en = CTRL_REG[0 : 0];
@@ -130,40 +129,41 @@ module EF_UART_WB #(
   assign rx_en = CTRL_REG[2 : 2];
   assign loopback_en = CTRL_REG[3 : 3];
   assign glitch_filter_en = CTRL_REG[4 : 4];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) CTRL_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == CTRL_REG_OFFSET)) CTRL_REG <= dat_i[5-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) CTRL_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == CTRL_REG_OFFSET)) CTRL_REG <= PWDATA[5-1:0];
 
   reg [13:0] CFG_REG;
   assign data_size = CFG_REG[3 : 0];
   assign stop_bits_count = CFG_REG[4 : 4];
   assign parity_type = CFG_REG[7 : 5];
   assign timeout_bits = CFG_REG[13 : 8];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) CFG_REG <= 'h3F08;
-    else if (wb_we & (adr_i[16-1:0] == CFG_REG_OFFSET)) CFG_REG <= dat_i[14-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) CFG_REG <= 'h3F08;
+    else if (apb_we & (PADDR[16-1:0] == CFG_REG_OFFSET)) CFG_REG <= PWDATA[14-1:0];
 
   reg [MDW-1:0] MATCH_REG;
   assign match_data = MATCH_REG;
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) MATCH_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == MATCH_REG_OFFSET)) MATCH_REG <= dat_i[MDW-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) MATCH_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == MATCH_REG_OFFSET)) MATCH_REG <= PWDATA[MDW-1:0];
 
   wire [FAW-1:0] RX_FIFO_LEVEL_WIRE;
   assign RX_FIFO_LEVEL_WIRE[(FAW-1) : 0] = rx_level;
 
   reg [FAW-1:0] RX_FIFO_THRESHOLD_REG;
   assign rxfifotr = RX_FIFO_THRESHOLD_REG[(FAW-1) : 0];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) RX_FIFO_THRESHOLD_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET))
-      RX_FIFO_THRESHOLD_REG <= dat_i[FAW-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) RX_FIFO_THRESHOLD_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET))
+      RX_FIFO_THRESHOLD_REG <= PWDATA[FAW-1:0];
 
   reg [0:0] RX_FIFO_FLUSH_REG;
   assign rx_fifo_flush = RX_FIFO_FLUSH_REG[0 : 0];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) RX_FIFO_FLUSH_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == RX_FIFO_FLUSH_REG_OFFSET)) RX_FIFO_FLUSH_REG <= dat_i[1-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) RX_FIFO_FLUSH_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == RX_FIFO_FLUSH_REG_OFFSET))
+      RX_FIFO_FLUSH_REG <= PWDATA[1-1:0];
     else RX_FIFO_FLUSH_REG <= 1'h0 & RX_FIFO_FLUSH_REG;
 
   wire [FAW-1:0] TX_FIFO_LEVEL_WIRE;
@@ -171,34 +171,35 @@ module EF_UART_WB #(
 
   reg [FAW-1:0] TX_FIFO_THRESHOLD_REG;
   assign txfifotr = TX_FIFO_THRESHOLD_REG[(FAW-1) : 0];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) TX_FIFO_THRESHOLD_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET))
-      TX_FIFO_THRESHOLD_REG <= dat_i[FAW-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) TX_FIFO_THRESHOLD_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET))
+      TX_FIFO_THRESHOLD_REG <= PWDATA[FAW-1:0];
 
   reg [0:0] TX_FIFO_FLUSH_REG;
   assign tx_fifo_flush = TX_FIFO_FLUSH_REG[0 : 0];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) TX_FIFO_FLUSH_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == TX_FIFO_FLUSH_REG_OFFSET)) TX_FIFO_FLUSH_REG <= dat_i[1-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) TX_FIFO_FLUSH_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == TX_FIFO_FLUSH_REG_OFFSET))
+      TX_FIFO_FLUSH_REG <= PWDATA[1-1:0];
     else TX_FIFO_FLUSH_REG <= 1'h0 & TX_FIFO_FLUSH_REG;
 
   localparam GCLK_REG_OFFSET = 16'hFF10;
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) GCLK_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == GCLK_REG_OFFSET)) GCLK_REG <= dat_i[1-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) GCLK_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == GCLK_REG_OFFSET)) GCLK_REG <= PWDATA[1-1:0];
 
   reg  [   9:0] IM_REG;
   reg  [   9:0] IC_REG;
   reg  [   9:0] RIS_REG;
 
   wire [10-1:0] MIS_REG = RIS_REG & IM_REG;
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) IM_REG <= 0;
-    else if (wb_we & (adr_i[16-1:0] == IM_REG_OFFSET)) IM_REG <= dat_i[10-1:0];
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) IC_REG <= 10'b0;
-    else if (wb_we & (adr_i[16-1:0] == IC_REG_OFFSET)) IC_REG <= dat_i[10-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) IM_REG <= 0;
+    else if (apb_we & (PADDR[16-1:0] == IM_REG_OFFSET)) IM_REG <= PWDATA[10-1:0];
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) IC_REG <= 10'b0;
+    else if (apb_we & (PADDR[16-1:0] == IC_REG_OFFSET)) IC_REG <= PWDATA[10-1:0];
     else IC_REG <= 10'd0;
 
   wire [0:0] TXE = tx_empty;
@@ -213,8 +214,8 @@ module EF_UART_WB #(
   wire [0:0] RTO = timeout_flag;
 
   integer _i_;
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) RIS_REG <= 0;
+  always @(posedge PCLK or negedge PRESETn)
+    if (~PRESETn) RIS_REG <= 0;
     else begin
       for (_i_ = 0; _i_ < 1; _i_ = _i_ + 1) begin
         if (IC_REG[_i_]) RIS_REG[_i_] <= 1'b0;
@@ -260,7 +261,7 @@ module EF_UART_WB #(
 
   assign IRQ = |MIS_REG;
 
-  EF_UART #(
+  CF_UART #(
       .SC(SC),
       .MDW(MDW),
       .GFLEN(GFLEN),
@@ -305,30 +306,28 @@ module EF_UART_WB #(
       .tx(tx)
   );
 
-  assign	dat_o = 
-			(adr_i[16-1:0] == RXDATA_REG_OFFSET)	? RXDATA_WIRE :
-			(adr_i[16-1:0] == PR_REG_OFFSET)	? PR_REG :
-			(adr_i[16-1:0] == CTRL_REG_OFFSET)	? CTRL_REG :
-			(adr_i[16-1:0] == CFG_REG_OFFSET)	? CFG_REG :
-			(adr_i[16-1:0] == MATCH_REG_OFFSET)	? MATCH_REG :
-			(adr_i[16-1:0] == RX_FIFO_LEVEL_REG_OFFSET)	? RX_FIFO_LEVEL_WIRE :
-			(adr_i[16-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET)	? RX_FIFO_THRESHOLD_REG :
-			(adr_i[16-1:0] == RX_FIFO_FLUSH_REG_OFFSET)	? RX_FIFO_FLUSH_REG :
-			(adr_i[16-1:0] == TX_FIFO_LEVEL_REG_OFFSET)	? TX_FIFO_LEVEL_WIRE :
-			(adr_i[16-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET)	? TX_FIFO_THRESHOLD_REG :
-			(adr_i[16-1:0] == TX_FIFO_FLUSH_REG_OFFSET)	? TX_FIFO_FLUSH_REG :
-			(adr_i[16-1:0] == IM_REG_OFFSET)	? IM_REG :
-			(adr_i[16-1:0] == MIS_REG_OFFSET)	? MIS_REG :
-			(adr_i[16-1:0] == RIS_REG_OFFSET)	? RIS_REG :
-			(adr_i[16-1:0] == IC_REG_OFFSET)	? IC_REG :
+  assign	PRDATA = 
+			(PADDR[16-1:0] == RXDATA_REG_OFFSET)	? RXDATA_WIRE :
+			(PADDR[16-1:0] == PR_REG_OFFSET)	? PR_REG :
+			(PADDR[16-1:0] == CTRL_REG_OFFSET)	? CTRL_REG :
+			(PADDR[16-1:0] == CFG_REG_OFFSET)	? CFG_REG :
+			(PADDR[16-1:0] == MATCH_REG_OFFSET)	? MATCH_REG :
+			(PADDR[16-1:0] == RX_FIFO_LEVEL_REG_OFFSET)	? RX_FIFO_LEVEL_WIRE :
+			(PADDR[16-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET)	? RX_FIFO_THRESHOLD_REG :
+			(PADDR[16-1:0] == RX_FIFO_FLUSH_REG_OFFSET)	? RX_FIFO_FLUSH_REG :
+			(PADDR[16-1:0] == TX_FIFO_LEVEL_REG_OFFSET)	? TX_FIFO_LEVEL_WIRE :
+			(PADDR[16-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET)	? TX_FIFO_THRESHOLD_REG :
+			(PADDR[16-1:0] == TX_FIFO_FLUSH_REG_OFFSET)	? TX_FIFO_FLUSH_REG :
+			(PADDR[16-1:0] == IM_REG_OFFSET)	? IM_REG :
+			(PADDR[16-1:0] == MIS_REG_OFFSET)	? MIS_REG :
+			(PADDR[16-1:0] == RIS_REG_OFFSET)	? RIS_REG :
+			(PADDR[16-1:0] == GCLK_REG_OFFSET)	? GCLK_REG :
 			32'hDEADBEEF;
 
-  always @(posedge clk_i or posedge rst_i)
-    if (rst_i) ack_o <= 1'b0;
-    else if (wb_valid & ~ack_o) ack_o <= 1'b1;
-    else ack_o <= 1'b0;
+  assign PREADY = 1'b1;
+
   assign RXDATA_WIRE = rdata;
-  assign rd = ack_o & (wb_re & (adr_i[16-1:0] == RXDATA_REG_OFFSET));
-  assign wdata = dat_i;
-  assign wr = ack_o & (wb_we & (adr_i[16-1:0] == TXDATA_REG_OFFSET));
+  assign rd = (apb_re & (PADDR[16-1:0] == RXDATA_REG_OFFSET));
+  assign wdata = PWDATA;
+  assign wr = (apb_we & (PADDR[16-1:0] == TXDATA_REG_OFFSET));
 endmodule

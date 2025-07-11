@@ -4,7 +4,7 @@ from uvm.tlm1.uvm_analysis_port import UVMAnalysisImp
 from uvm.base.uvm_object_globals import UVM_HIGH, UVM_LOW, UVM_MEDIUM
 from uvm.macros import uvm_component_utils, uvm_fatal, uvm_info
 from uvm.base.uvm_config_db import UVMConfigDb
-from ref_model.model import EF_UART
+from ref_model.model import CF_UART
 from EF_UVM.bus_env.bus_item import bus_item, bus_irq_item
 from uvm.tlm1.uvm_analysis_port import UVMAnalysisExport
 from uvm.macros.uvm_tlm_defines import uvm_analysis_imp_decl
@@ -29,7 +29,7 @@ class UART_VIP(ref_model):
 
     def build_phase(self, phase):
         super().build_phase(phase)
-        self.model = EF_UART.type_id.create("model", self)
+        self.model = CF_UART.type_id.create("model", self)
 
     def start_of_simulation_phase(self, phase):
         cocotb.scheduler.add(self.update_irq())

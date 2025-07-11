@@ -26,7 +26,7 @@
 
 `include			"apb_wrapper.vh"
 
-module EF_UART_APB #( 
+module CF_UART_APB #( 
 	parameter	
 		SC = 8,
 		MDW = 9,
@@ -221,7 +221,7 @@ module EF_UART_APB #(
 
 	assign IRQ = |MIS_REG;
 
-	EF_UART #(
+	CF_UART #(
 		.SC(SC),
 		.MDW(MDW),
 		.GFLEN(GFLEN),

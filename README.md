@@ -1,7 +1,7 @@
-# EF_UART
+# CF_UART
 
 UART, or universal asynchronous receiver-transmitter, is one of the most used device-to-device communication protocols. A UART enables two devices to exchange data serially without sharing the clock in a frame oriented way. The frame consists of a start bit, a number of data bits (typically one byte), a parity bit (optional) and 1-2 stop bits.
-EF_UART is a Soft IP with the following features:
+CF_UART is a Soft IP with the following features:
 - A configurable frame format
   - Data bits could vary from 5 to 9 bits
   - Even, odd, stick, or no-parity bit generation/detection
@@ -34,7 +34,7 @@ EF_UART is a Soft IP with the following features:
 
 Based on your use case, use one of the provided wrappers or create a wrapper for your system bus type. For an example of how to integrate the wishbone wrapper:
 ```verilog
-EF_UART_WB INST (
+CF_UART_WB INST (
 	.clk_i(clk_i),
 	.rst_i(rst_i),
 	.adr_i(adr_i),
@@ -62,13 +62,13 @@ This IP generates interrupts on specific events, which are described in the [Int
 
 ## Implementation example  
 
-The following table is the result for implementing the EF_UART IP with different wrappers using Sky130 HD library and [OpenLane2](https://github.com/efabless/openlane2) flow.
+The following table is the result for implementing the CF_UART IP with different wrappers using Sky130 HD library and [OpenLane2](https://github.com/chipfoundry/openlane-2) flow.
 |Module | Number of cells | Max. freq |
 |---|---|---|
-|EF_UART|1590| 277 |
-|EF_UART_APB|1943|208|
-|EF_UART_AHBL|1973|250|
-|EF_UART_WB|2170|83|
+|CF_UART|1590| 277 |
+|CF_UART_APB|1943|208|
+|CF_UART_AHBL|1973|250|
+|CF_UART_WB|2170|83|
 ## The Programmer's Interface
 
 
@@ -240,25 +240,25 @@ VERILOG_DEFINES:
 - CLKG_SKY130_HD
 ```
 ## Firmware Drivers:
-Firmware drivers for EF_UART can be found in the [Drivers](https://github.com/efabless/EFIS/tree/main/Drivers) directory in the [EFIS](https://github.com/efabless/EFIS) (Efabless Firmware Interface Standard) repo. EF_UART driver documentation  is available [here](https://github.com/efabless/EFIS/blob/main/Drivers/Docs/EF_UART/README.md).
-You can also find an example C application using the EF_UART drivers [here](https://github.com/efabless/EFIS/tree/main/Drivers/Docs/EF_UART/example).
+Firmware drivers for CF_UART can be found in the [Drivers](https://github.com/efabless/EFIS/tree/main/Drivers) directory in the [EFIS](https://github.com/efabless/EFIS) (Efabless Firmware Interface Standard) repo. CF_UART driver documentation  is available [here](https://github.com/efabless/EFIS/blob/main/Drivers/Docs/CF_UART/README.md).
+You can also find an example C application using the CF_UART drivers [here](https://github.com/efabless/EFIS/tree/main/Drivers/Docs/CF_UART/example).
 ## Installation:
 You can install the IP either by cloning this repository or by using [IPM](https://github.com/efabless/IPM).
 ### 1. Using [IPM](https://github.com/efabless/IPM):
 - [Optional] If you do not have IPM installed, follow the installation guide [here](https://github.com/efabless/IPM/blob/main/README.md)
-- After installing IPM, execute the following command ```ipm install EF_UART```.
+- After installing IPM, execute the following command ```ipm install CF_UART```.
 > **Note:** This method is recommended as it automatically installs [EF_IP_UTIL](https://github.com/efabless/EF_IP_UTIL.git) as a dependency.
 ### 2. Cloning this repo: 
 - Clone [EF_IP_UTIL](https://github.com/efabless/EF_IP_UTIL.git) repository, which includes the required modules from the common modules library, [ef_util_lib.v](https://github.com/efabless/EF_IP_UTIL/blob/main/hdl/ef_util_lib.v).
 ```git clone https://github.com/efabless/EF_IP_UTIL.git```
 - Clone the IP repository
-```git clone https://github.com/efabless/EF_UART.git```
+```git clone https://github.com/chipfoundry/CF_UART.git```
 
 ### The Wrapped IP Interface 
 
 >**_NOTE:_** This section is intended for advanced users who wish to gain more information about the interface of the wrapped IP, in case they want to create their own wrappers.
 
-<img src="docs/_static/EF_UART.svg" width="600"/>
+<img src="docs/_static/CF_UART.svg" width="600"/>
 
 #### Module Parameters 
 

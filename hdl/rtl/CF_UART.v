@@ -44,7 +44,7 @@
 `default_nettype		none
 
 
-module EF_UART #(parameter  MDW = 9,        // Max data size/width
+module CF_UART #(parameter  MDW = 9,        // Max data size/width
                                 FAW = 4,        // FIFO Address width; Depth=2^AW
                                 SC = 8,         // Number of samples per bit/baud
                                 GFLEN = 8       // Length (number of stages) of the glitch filter

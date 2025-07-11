@@ -17,26 +17,28 @@
 
 */
 
-IP_name: EF_UART
-Author: Efabless
-Directory Structure:
+# CF_UART IP Core
 
-    - fw 
-        - **EF_UART_regs.h**: Header file containing the register definitions for the EF_UART interface.
+## Overview
+This repository contains the CF_UART IP core, a Universal Asynchronous Receiver-Transmitter (UART) implementation designed for integration into System-on-Chip (SoC) designs.
 
-    - hdl 
-        - rtl 
-            - **EF_UART.v**: Verilog source code for the EF_UART design, including the core logic of the UART module.
-            - **bus_wrappers**
-                - **EF_UART_AHBL.v**: Verilog wrapper to interface the EF_UART with the AMBA High-performance Bus (AHB-Lite) protocol.
-                - **EF_UART_APB.v**: Verilog wrapper to interface the EF_UART with the Advanced Peripheral Bus (APB) protocol.
-                - **EF_UART_WB.v**: Verilog wrapper to interface the EF_UART with the Wishbone bus protocol.
-            - **dft**
-                - **EF_UART_AHBL_DFT.v**: Verilog wrapper with Design for Test (DFT) support specific to the AHB-Lite interface of the EF_UART .
-                - **EF_UART_APB_DFT.v**: Verilog wrapper with DFT support specific to the APB interface of the EF_UART.
-                - **EF_UART_WB_DFT.v**: Verilog wrapper with DFT support specific to the Wishbone interface of the EF_UART.
+## Repository Structure
 
-    - ip 
-        - **dependencies.json**: Used by IPM [Do NOT EDIT OR DELETE].
-    
-    - **EF_UART.pdf**: Comprehensive documentation for the EF_UART, including its features, configuration, and usage.
+### Core Files
+- **CF_UART_regs.h**: Header file containing the register definitions for the CF_UART interface.
+
+### Hardware Description Language (HDL) Files
+- **CF_UART.v**: Verilog source code for the CF_UART design, including the core logic of the UART module.
+
+### Bus Interface Wrappers
+- **CF_UART_AHBL.v**: Verilog wrapper to interface the CF_UART with the AMBA High-performance Bus (AHB-Lite) protocol.
+- **CF_UART_APB.v**: Verilog wrapper to interface the CF_UART with the Advanced Peripheral Bus (APB) protocol.
+- **CF_UART_WB.v**: Verilog wrapper to interface the CF_UART with the Wishbone bus protocol.
+
+### Design for Test (DFT) Wrappers
+- **CF_UART_AHBL_DFT.v**: Verilog wrapper with Design for Test (DFT) support specific to the AHB-Lite interface of the CF_UART .
+- **CF_UART_APB_DFT.v**: Verilog wrapper with DFT support specific to the APB interface of the CF_UART.
+- **CF_UART_WB_DFT.v**: Verilog wrapper with DFT support specific to the Wishbone interface of the CF_UART.
+
+### Documentation
+- **CF_UART.pdf**: Comprehensive documentation for the CF_UART, including its features, configuration, and usage.

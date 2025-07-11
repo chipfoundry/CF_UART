@@ -22,11 +22,11 @@
 `timescale			1ns/1ps
 `default_nettype	none
 
-`define				APB_AW		16
+`define				AHBL_AW		16
 
-`include			"apb_wrapper.vh"
+`include			"ahbl_wrapper.vh"
 
-module EF_UART_APB #( 
+module CF_UART_AHBL #( 
 	parameter	
 		SC = 8,
 		MDW = 9,
@@ -37,48 +37,47 @@ module EF_UART_APB #(
 	inout VPWR,
 	inout VGND,
 `endif
-	input	wire	sc_testmode,
-	`APB_SLAVE_PORTS,
+	`AHBL_SLAVE_PORTS,
 	input	wire	[1-1:0]	rx,
 	output	wire	[1-1:0]	tx
 );
 
-	localparam	RXDATA_REG_OFFSET = `APB_AW'h0000;
-	localparam	TXDATA_REG_OFFSET = `APB_AW'h0004;
-	localparam	PR_REG_OFFSET = `APB_AW'h0008;
-	localparam	CTRL_REG_OFFSET = `APB_AW'h000C;
-	localparam	CFG_REG_OFFSET = `APB_AW'h0010;
-	localparam	MATCH_REG_OFFSET = `APB_AW'h001C;
-	localparam	RX_FIFO_LEVEL_REG_OFFSET = `APB_AW'hFE00;
-	localparam	RX_FIFO_THRESHOLD_REG_OFFSET = `APB_AW'hFE04;
-	localparam	RX_FIFO_FLUSH_REG_OFFSET = `APB_AW'hFE08;
-	localparam	TX_FIFO_LEVEL_REG_OFFSET = `APB_AW'hFE10;
-	localparam	TX_FIFO_THRESHOLD_REG_OFFSET = `APB_AW'hFE14;
-	localparam	TX_FIFO_FLUSH_REG_OFFSET = `APB_AW'hFE18;
-	localparam	IM_REG_OFFSET = `APB_AW'hFF00;
-	localparam	MIS_REG_OFFSET = `APB_AW'hFF04;
-	localparam	RIS_REG_OFFSET = `APB_AW'hFF08;
-	localparam	IC_REG_OFFSET = `APB_AW'hFF0C;
+	localparam	RXDATA_REG_OFFSET = `AHBL_AW'h0000;
+	localparam	TXDATA_REG_OFFSET = `AHBL_AW'h0004;
+	localparam	PR_REG_OFFSET = `AHBL_AW'h0008;
+	localparam	CTRL_REG_OFFSET = `AHBL_AW'h000C;
+	localparam	CFG_REG_OFFSET = `AHBL_AW'h0010;
+	localparam	MATCH_REG_OFFSET = `AHBL_AW'h001C;
+	localparam	RX_FIFO_LEVEL_REG_OFFSET = `AHBL_AW'hFE00;
+	localparam	RX_FIFO_THRESHOLD_REG_OFFSET = `AHBL_AW'hFE04;
+	localparam	RX_FIFO_FLUSH_REG_OFFSET = `AHBL_AW'hFE08;
+	localparam	TX_FIFO_LEVEL_REG_OFFSET = `AHBL_AW'hFE10;
+	localparam	TX_FIFO_THRESHOLD_REG_OFFSET = `AHBL_AW'hFE14;
+	localparam	TX_FIFO_FLUSH_REG_OFFSET = `AHBL_AW'hFE18;
+	localparam	IM_REG_OFFSET = `AHBL_AW'hFF00;
+	localparam	MIS_REG_OFFSET = `AHBL_AW'hFF04;
+	localparam	RIS_REG_OFFSET = `AHBL_AW'hFF08;
+	localparam	IC_REG_OFFSET = `AHBL_AW'hFF0C;
 
     reg [0:0] GCLK_REG;
     wire clk_g;
 
-    wire clk_gated_en = sc_testmode ? 1'b1 : GCLK_REG[0];
+    wire clk_gated_en = GCLK_REG[0];
     ef_util_gating_cell clk_gate_cell(
         `ifdef USE_POWER_PINS 
         .vpwr(VPWR),
         .vgnd(VGND),
         `endif // USE_POWER_PINS
-        .clk(PCLK),
+        .clk(HCLK),
         .clk_en(clk_gated_en),
         .clk_o(clk_g)
     );
     
 	wire		clk = clk_g;
-	wire		rst_n = PRESETn;
+	wire		rst_n = HRESETn;
 
 
-	`APB_CTRL_SIGNALS
+	`AHBL_CTRL_SIGNALS
 
 	wire [16-1:0]	prescaler;
 	wire [1-1:0]	en;
@@ -120,7 +119,7 @@ module EF_UART_APB #(
 
 	reg [15:0]	PR_REG;
 	assign	prescaler = PR_REG;
-	`APB_REG(PR_REG, 0, 16)
+	`AHBL_REG(PR_REG, 0, 16)
 
 	reg [4:0]	CTRL_REG;
 	assign	en	=	CTRL_REG[0 : 0];
@@ -128,51 +127,51 @@ module EF_UART_APB #(
 	assign	rx_en	=	CTRL_REG[2 : 2];
 	assign	loopback_en	=	CTRL_REG[3 : 3];
 	assign	glitch_filter_en	=	CTRL_REG[4 : 4];
-	`APB_REG(CTRL_REG, 0, 5)
+	`AHBL_REG(CTRL_REG, 0, 5)
 
 	reg [13:0]	CFG_REG;
 	assign	data_size	=	CFG_REG[3 : 0];
 	assign	stop_bits_count	=	CFG_REG[4 : 4];
 	assign	parity_type	=	CFG_REG[7 : 5];
 	assign	timeout_bits	=	CFG_REG[13 : 8];
-	`APB_REG(CFG_REG, 'h3F08, 14)
+	`AHBL_REG(CFG_REG, 'h3F08, 14)
 
 	reg [MDW-1:0]	MATCH_REG;
 	assign	match_data = MATCH_REG;
-	`APB_REG(MATCH_REG, 0, MDW)
+	`AHBL_REG(MATCH_REG, 0, MDW)
 
 	wire [FAW-1:0]	RX_FIFO_LEVEL_WIRE;
 	assign	RX_FIFO_LEVEL_WIRE[(FAW - 1) : 0] = rx_level;
 
 	reg [FAW-1:0]	RX_FIFO_THRESHOLD_REG;
 	assign	rxfifotr	=	RX_FIFO_THRESHOLD_REG[(FAW - 1) : 0];
-	`APB_REG(RX_FIFO_THRESHOLD_REG, 0, FAW)
+	`AHBL_REG(RX_FIFO_THRESHOLD_REG, 0, FAW)
 
 	reg [0:0]	RX_FIFO_FLUSH_REG;
 	assign	rx_fifo_flush	=	RX_FIFO_FLUSH_REG[0 : 0];
-	`APB_REG_AC(RX_FIFO_FLUSH_REG, 0, 1, 1'h0)
+	`AHBL_REG_AC(RX_FIFO_FLUSH_REG, 0, 1, 1'h0)
 
 	wire [FAW-1:0]	TX_FIFO_LEVEL_WIRE;
 	assign	TX_FIFO_LEVEL_WIRE[(FAW - 1) : 0] = tx_level;
 
 	reg [FAW-1:0]	TX_FIFO_THRESHOLD_REG;
 	assign	txfifotr	=	TX_FIFO_THRESHOLD_REG[(FAW - 1) : 0];
-	`APB_REG(TX_FIFO_THRESHOLD_REG, 0, FAW)
+	`AHBL_REG(TX_FIFO_THRESHOLD_REG, 0, FAW)
 
 	reg [0:0]	TX_FIFO_FLUSH_REG;
 	assign	tx_fifo_flush	=	TX_FIFO_FLUSH_REG[0 : 0];
-	`APB_REG_AC(TX_FIFO_FLUSH_REG, 0, 1, 1'h0)
+	`AHBL_REG_AC(TX_FIFO_FLUSH_REG, 0, 1, 1'h0)
 
-	localparam	GCLK_REG_OFFSET = `APB_AW'hFF10;
-	`APB_REG(GCLK_REG, 0, 1)
+	localparam	GCLK_REG_OFFSET = `AHBL_AW'hFF10;
+	`AHBL_REG(GCLK_REG, 0, 1)
 
 	reg [9:0] IM_REG;
 	reg [9:0] IC_REG;
 	reg [9:0] RIS_REG;
 
-	`APB_MIS_REG(10)
-	`APB_REG(IM_REG, 0, 10)
-	`APB_IC_REG(10)
+	`AHBL_MIS_REG(10)
+	`AHBL_REG(IM_REG, 0, 10)
+	`AHBL_IC_REG(10)
 
 	wire [0:0] TXE = tx_empty;
 	wire [0:0] RXF = rx_full;
@@ -187,7 +186,7 @@ module EF_UART_APB #(
 
 
 	integer _i_;
-	`APB_BLOCK(RIS_REG, 0) else begin
+	`AHBL_BLOCK(RIS_REG, 0) else begin
 		for(_i_ = 0; _i_ < 1; _i_ = _i_ + 1) begin
 			if(IC_REG[_i_]) RIS_REG[_i_] <= 1'b0; else if(TXE[_i_ - 0] == 1'b1) RIS_REG[_i_] <= 1'b1;
 		end
@@ -222,7 +221,7 @@ module EF_UART_APB #(
 
 	assign IRQ = |MIS_REG;
 
-	EF_UART #(
+	CF_UART #(
 		.SC(SC),
 		.MDW(MDW),
 		.GFLEN(GFLEN),
@@ -267,28 +266,28 @@ module EF_UART_APB #(
 		.tx(tx)
 	);
 
-	assign	PRDATA = 
-			(PADDR[`APB_AW-1:0] == RXDATA_REG_OFFSET)	? RXDATA_WIRE :
-			(PADDR[`APB_AW-1:0] == PR_REG_OFFSET)	? PR_REG :
-			(PADDR[`APB_AW-1:0] == CTRL_REG_OFFSET)	? CTRL_REG :
-			(PADDR[`APB_AW-1:0] == CFG_REG_OFFSET)	? CFG_REG :
-			(PADDR[`APB_AW-1:0] == MATCH_REG_OFFSET)	? MATCH_REG :
-			(PADDR[`APB_AW-1:0] == RX_FIFO_LEVEL_REG_OFFSET)	? RX_FIFO_LEVEL_WIRE :
-			(PADDR[`APB_AW-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET)	? RX_FIFO_THRESHOLD_REG :
-			(PADDR[`APB_AW-1:0] == RX_FIFO_FLUSH_REG_OFFSET)	? RX_FIFO_FLUSH_REG :
-			(PADDR[`APB_AW-1:0] == TX_FIFO_LEVEL_REG_OFFSET)	? TX_FIFO_LEVEL_WIRE :
-			(PADDR[`APB_AW-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET)	? TX_FIFO_THRESHOLD_REG :
-			(PADDR[`APB_AW-1:0] == TX_FIFO_FLUSH_REG_OFFSET)	? TX_FIFO_FLUSH_REG :
-			(PADDR[`APB_AW-1:0] == IM_REG_OFFSET)	? IM_REG :
-			(PADDR[`APB_AW-1:0] == MIS_REG_OFFSET)	? MIS_REG :
-			(PADDR[`APB_AW-1:0] == RIS_REG_OFFSET)	? RIS_REG :
-			(PADDR[`APB_AW-1:0] == GCLK_REG_OFFSET)	? GCLK_REG :
+	assign	HRDATA = 
+			(last_HADDR[`AHBL_AW-1:0] == RXDATA_REG_OFFSET)	? RXDATA_WIRE :
+			(last_HADDR[`AHBL_AW-1:0] == PR_REG_OFFSET)	? PR_REG :
+			(last_HADDR[`AHBL_AW-1:0] == CTRL_REG_OFFSET)	? CTRL_REG :
+			(last_HADDR[`AHBL_AW-1:0] == CFG_REG_OFFSET)	? CFG_REG :
+			(last_HADDR[`AHBL_AW-1:0] == MATCH_REG_OFFSET)	? MATCH_REG :
+			(last_HADDR[`AHBL_AW-1:0] == RX_FIFO_LEVEL_REG_OFFSET)	? RX_FIFO_LEVEL_WIRE :
+			(last_HADDR[`AHBL_AW-1:0] == RX_FIFO_THRESHOLD_REG_OFFSET)	? RX_FIFO_THRESHOLD_REG :
+			(last_HADDR[`AHBL_AW-1:0] == RX_FIFO_FLUSH_REG_OFFSET)	? RX_FIFO_FLUSH_REG :
+			(last_HADDR[`AHBL_AW-1:0] == TX_FIFO_LEVEL_REG_OFFSET)	? TX_FIFO_LEVEL_WIRE :
+			(last_HADDR[`AHBL_AW-1:0] == TX_FIFO_THRESHOLD_REG_OFFSET)	? TX_FIFO_THRESHOLD_REG :
+			(last_HADDR[`AHBL_AW-1:0] == TX_FIFO_FLUSH_REG_OFFSET)	? TX_FIFO_FLUSH_REG :
+			(last_HADDR[`AHBL_AW-1:0] == IM_REG_OFFSET)	? IM_REG :
+			(last_HADDR[`AHBL_AW-1:0] == MIS_REG_OFFSET)	? MIS_REG :
+			(last_HADDR[`AHBL_AW-1:0] == RIS_REG_OFFSET)	? RIS_REG :
+			(last_HADDR[`AHBL_AW-1:0] == GCLK_REG_OFFSET)	? GCLK_REG :
 			32'hDEADBEEF;
 
-	assign	PREADY = 1'b1;
+	assign	HREADYOUT = 1'b1;
 
 	assign	RXDATA_WIRE = rdata;
-	assign	rd = (apb_re & (PADDR[`APB_AW-1:0] == RXDATA_REG_OFFSET));
-	assign	wdata = PWDATA;
-	assign	wr = (apb_we & (PADDR[`APB_AW-1:0] == TXDATA_REG_OFFSET));
+	assign	rd = (ahbl_re & (last_HADDR[`AHBL_AW-1:0] == RXDATA_REG_OFFSET));
+	assign	wdata = HWDATA;
+	assign	wr = (ahbl_we & (last_HADDR[`AHBL_AW-1:0] == TXDATA_REG_OFFSET));
 endmodule

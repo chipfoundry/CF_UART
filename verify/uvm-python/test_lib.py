@@ -83,7 +83,7 @@ async def module_top(dut):
     UVMConfigDb.set(None, "*", "bus_if", w_if)
     UVMConfigDb.set(None, "*", "bus_irq_if", w_irq_if)
     UVMConfigDb.set(
-        None, "*", "json_file", "/home/rady/work/uvm_unit/EF_UART/EF_UART.json"
+        None, "*", "json_file", "/home/rady/work/uvm_unit/CF_UART/CF_UART.json"
     )
     yaml_file = []
     UVMRoot().clp.get_arg_values("+YAML_FILE=", yaml_file)

@@ -22,14 +22,13 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-module EF_UART_WB #(
+module CF_UART_WB #(
     parameter SC = 8,
     MDW = 9,
     GFLEN = 8,
     FAW = 4
 ) (
 
-    input  wire         sc_testmode,
     input  wire         clk_i,
     input  wire         rst_i,
     input  wire [ 31:0] adr_i,
@@ -65,7 +64,7 @@ module EF_UART_WB #(
   reg [0:0] GCLK_REG;
   wire clk_g;
 
-  wire clk_gated_en = sc_testmode ? 1'b1 : GCLK_REG[0];
+  wire clk_gated_en = GCLK_REG[0];
   ef_util_gating_cell clk_gate_cell (
 
       // USE_POWER_PINS
@@ -261,7 +260,7 @@ module EF_UART_WB #(
 
   assign IRQ = |MIS_REG;
 
-  EF_UART #(
+  CF_UART #(
       .SC(SC),
       .MDW(MDW),
       .GFLEN(GFLEN),

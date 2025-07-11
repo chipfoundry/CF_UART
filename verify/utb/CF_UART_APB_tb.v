@@ -28,7 +28,7 @@
 
 `include		"tb_macros.vh"
 
-module EF_UART_APB_tb;
+module CF_UART_APB_tb;
 
 	// Change the following parameters as desired
 	parameter real CLOCK_PERIOD = 100.0;
@@ -62,10 +62,10 @@ module EF_UART_APB_tb;
 
 	`TB_CLK(PCLK, CLOCK_PERIOD)
 	`TB_ESRST(PRESETn, 1'b0, PCLK, RESET_DURATION)
-	`TB_DUMP("APB_EF_UART_tb.vcd", EF_UART_APB_tb, 0)
+	`TB_DUMP("APB_CF_UART_tb.vcd", CF_UART_APB_tb, 0)
 	`TB_FINISH(`MS_TB_SIMTIME)
 
-	EF_UART_APB DUV (
+	CF_UART_APB DUV (
 		`TB_APB_SLAVE_CONN,
 		.rx(rx),
 		.tx(tx)
