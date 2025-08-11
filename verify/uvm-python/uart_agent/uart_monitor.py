@@ -16,7 +16,7 @@ from uart_item.uart_interrupt import uart_interrupt
 from uvm.base.uvm_object_globals import UVM_HIGH, UVM_LOW, UVM_MEDIUM
 import cocotb
 import math
-from EF_UVM.ip_env.ip_agent.ip_monitor import ip_monitor
+from CF_UVM.ip_env.ip_agent.ip_monitor import ip_monitor
 
 
 class uart_monitor(ip_monitor):

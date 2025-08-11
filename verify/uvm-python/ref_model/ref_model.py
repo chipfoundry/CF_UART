@@ -5,12 +5,12 @@ from uvm.base.uvm_object_globals import UVM_HIGH, UVM_LOW, UVM_MEDIUM
 from uvm.macros import uvm_component_utils, uvm_fatal, uvm_info
 from uvm.base.uvm_config_db import UVMConfigDb
 from ref_model.model import CF_UART
-from EF_UVM.bus_env.bus_item import bus_item, bus_irq_item
+from CF_UVM.bus_env.bus_item import bus_item, bus_irq_item
 from uvm.tlm1.uvm_analysis_port import UVMAnalysisExport
 from uvm.macros.uvm_tlm_defines import uvm_analysis_imp_decl
 from uart_item.uart_item import uart_item
 import cocotb
-from EF_UVM.ref_model.ref_model import ref_model
+from CF_UVM.ref_model.ref_model import ref_model
 
 
 class UART_VIP(ref_model):

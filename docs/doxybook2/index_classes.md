@@ -8,7 +8,7 @@ title: Classes
 
 
 
-* **struct [_EF_UART_TYPE_](Classes/struct__EF__UART__TYPE__.md)** 
+* **struct [_CF_UART_TYPE_](Classes/struct__CF__UART__TYPE__.md)** 
 
 
 

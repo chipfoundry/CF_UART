@@ -107,13 +107,13 @@ module CF_UART #(parameter  MDW = 9,        // Max data size/width
     wire        rx_filtered;
     wire        rx_in;
 
-    ef_util_sync rx_sync (
+    cf_util_sync rx_sync (
         .clk(clk),
         .in(rx),
         .out(rx_synched)
     );
 
-    ef_util_glitch_filter #(.N(GFLEN)) rx_glitch_filter (
+    cf_util_glitch_filter #(.N(GFLEN)) rx_glitch_filter (
         .clk(clk),
         .rst_n(rst_n),
         .en(glitch_filter_en),
@@ -133,7 +133,7 @@ module CF_UART #(parameter  MDW = 9,        // Max data size/width
         .baudtick(b_tick)
     );
   
-    ef_util_fifo #(.DW(FIFO_DW), .AW(FAW)) fifo_tx (
+    cf_util_fifo #(.DW(FIFO_DW), .AW(FAW)) fifo_tx (
         .clk(clk),
         .rst_n(rst_n),
         .rd(tx_done),
@@ -159,7 +159,7 @@ module CF_UART #(parameter  MDW = 9,        // Max data size/width
         .tx(tx)
     );
 
-    ef_util_fifo #(.DW(FIFO_DW), .AW(FAW)) fifo_rx (
+    cf_util_fifo #(.DW(FIFO_DW), .AW(FAW)) fifo_rx (
         .clk(clk),
         .rst_n(rst_n),
         .rd(rd),

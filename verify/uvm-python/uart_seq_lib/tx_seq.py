@@ -1,9 +1,9 @@
 from uvm.macros.uvm_object_defines import uvm_object_utils
 from uvm.macros.uvm_sequence_defines import uvm_do_with
 from uvm.base import sv, UVM_HIGH, UVM_LOW
-from EF_UVM.bus_env.bus_item import bus_item
+from CF_UVM.bus_env.bus_item import bus_item
 import random
-from EF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
+from CF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
 
 
 class tx_seq(bus_seq_base):

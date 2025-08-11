@@ -2,7 +2,7 @@ from uvm.comps import UVMScoreboard
 from uvm.macros import uvm_component_utils, uvm_info
 from uvm.base.uvm_object_globals import UVM_HIGH, UVM_LOW
 from uart_item.uart_item import uart_item
-from EF_UVM.scoreboard import scoreboard
+from CF_UVM.scoreboard import scoreboard
 from uvm.macros import uvm_component_utils, uvm_info, uvm_error
 
 #  TODO: replace this with callback in the future

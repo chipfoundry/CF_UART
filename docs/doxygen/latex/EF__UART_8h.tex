@@ -1,5 +1,5 @@
 \doxysection{EF\+\_\+\+UART.\+h File Reference}
-\hypertarget{EF__UART_8h}{}\label{EF__UART_8h}\index{EF\_UART.h@{EF\_UART.h}}
+\hypertarget{CF__UART_8h}{}\label{CF__UART_8h}\index{EF\_UART.h@{EF\_UART.h}}
 
 
 C header file for UART APIs which contains the function prototypes.  
@@ -11,95 +11,95 @@ C header file for UART APIs which contains the function prototypes.
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}} \{ \newline
-\mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2}{NONE}} = 0
-, \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8}{ODD}} = 1
-, \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc}{EVEN}} = 2
-, \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998}{STICKY\+\_\+0}} = 4
+enum \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}} \{ \newline
+\mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2}{NONE}} = 0
+, \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8}{ODD}} = 1
+, \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc}{EVEN}} = 2
+, \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998}{STICKY\+\_\+0}} = 4
 , \newline
-\mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec}{STICKY\+\_\+1}} = 5
+\mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec}{STICKY\+\_\+1}} = 5
  \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{EF__UART_8h_ac8fb76879468f536845efd63dd013023}{EF\+\_\+\+UART\+\_\+enable}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_ac8fb76879468f536845efd63dd013023}{EF\+\_\+\+UART\+\_\+enable}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em enables using uart by setting "{}en"{} bit in the control register to 1 \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1}{EF\+\_\+\+UART\+\_\+disable}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1}{EF\+\_\+\+UART\+\_\+disable}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em disables using uart by clearing "{}en"{} bit in the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf}{EF\+\_\+\+UART\+\_\+enable\+Rx}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf}{EF\+\_\+\+UART\+\_\+enable\+Rx}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em enables using uart RX by setting uart "{}rxen"{} bit in the control register to 1 \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a8bbcb77cabef3983cca1118db94f33da}{EF\+\_\+\+UART\+\_\+disable\+Rx}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a8bbcb77cabef3983cca1118db94f33da}{EF\+\_\+\+UART\+\_\+disable\+Rx}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em disables using uart RX by clearing uart "{}rxen"{} bit in the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e}{EF\+\_\+\+UART\+\_\+enable\+Tx}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e}{EF\+\_\+\+UART\+\_\+enable\+Tx}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em enables using uart TX by setting uart "{}txen"{} bit in the control register to 1 \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82}{EF\+\_\+\+UART\+\_\+disable\+Tx}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82}{EF\+\_\+\+UART\+\_\+disable\+Tx}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em disables using uart TX by clearing uart "{}txen"{} bit in the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a5b6c1522111c36f052d01ef8477d8708}{EF\+\_\+\+UART\+\_\+enable\+Loop\+Back}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a5b6c1522111c36f052d01ef8477d8708}{EF\+\_\+\+UART\+\_\+enable\+Loop\+Back}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em enables loopback (connecting TX to RX signal) by setting "{}lpen"{} bit in the control register to 1 \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f}{EF\+\_\+\+UART\+\_\+disable\+Loop\+Back}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f}{EF\+\_\+\+UART\+\_\+disable\+Loop\+Back}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em disables loopback (connecting TX to RX signal) by clearing "{}lpen"{} bit in the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08}{EF\+\_\+\+UART\+\_\+enable\+Glitch\+Filter}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08}{EF\+\_\+\+UART\+\_\+enable\+Glitch\+Filter}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em enables glitch filter (filter out noise or glitches on the received signal) by setting "{}gfen"{} bit in the control register to 1 \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a0b951370140c22de50546112916dbf0f}{EF\+\_\+\+UART\+\_\+disable\+Glitch\+Filter}} (uint32\+\_\+t uart\+\_\+base)
+void \mbox{\hyperlink{CF__UART_8h_a0b951370140c22de50546112916dbf0f}{EF\+\_\+\+UART\+\_\+disable\+Glitch\+Filter}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em disables glitch filter (filter out noise or glitches on the received signal) by clearing "{}gfen"{} bit in the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a93420e961b8b16ec1d4e19565a89338f}{EF\+\_\+\+UART\+\_\+set\+CTRL}} (uint32\+\_\+t uart\+\_\+base, int value)
+void \mbox{\hyperlink{CF__UART_8h_a93420e961b8b16ec1d4e19565a89338f}{EF\+\_\+\+UART\+\_\+set\+CTRL}} (uint32\+\_\+t uart\+\_\+base, int value)
 \item 
-int \mbox{\hyperlink{EF__UART_8h_ae932a6f49dc8556119957adf2d230714}{EF\+\_\+\+UART\+\_\+get\+CTRL}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_ae932a6f49dc8556119957adf2d230714}{EF\+\_\+\+UART\+\_\+get\+CTRL}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the value of the control register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7}{EF\+\_\+\+UART\+\_\+set\+Data\+Size}} (uint32\+\_\+t uart\+\_\+base, int value)
+void \mbox{\hyperlink{CF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7}{EF\+\_\+\+UART\+\_\+set\+Data\+Size}} (uint32\+\_\+t uart\+\_\+base, int value)
 \begin{DoxyCompactList}\small\item\em sets the Data Size (Data word length\+: 5-\/9 bits ) by setting the "{}wlen"{} field in configuration register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_ad9196d00146f379a9e90b260b4545209}{EF\+\_\+\+UART\+\_\+set\+Two\+Stop\+Bits\+Select}} (uint32\+\_\+t uart\+\_\+base, bool is\+\_\+two\+\_\+bits)
+void \mbox{\hyperlink{CF__UART_8h_ad9196d00146f379a9e90b260b4545209}{EF\+\_\+\+UART\+\_\+set\+Two\+Stop\+Bits\+Select}} (uint32\+\_\+t uart\+\_\+base, bool is\+\_\+two\+\_\+bits)
 \begin{DoxyCompactList}\small\item\em sets the "{}stp2"{} bit in configuration register (whether the stop boits are two or one) \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a61f34f093714af424473fa57fb04cfc5}{EF\+\_\+\+UART\+\_\+set\+Parity\+Type}} (uint32\+\_\+t uart\+\_\+base, enum \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}} parity)
+void \mbox{\hyperlink{CF__UART_8h_a61f34f093714af424473fa57fb04cfc5}{EF\+\_\+\+UART\+\_\+set\+Parity\+Type}} (uint32\+\_\+t uart\+\_\+base, enum \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}} parity)
 \begin{DoxyCompactList}\small\item\em sets the "{}parity"{} field in configuration register (could be none, odd, even, sticky 0 or sticky 1) \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018}{EF\+\_\+\+UART\+\_\+set\+Timeout\+Bits}} (uint32\+\_\+t uart\+\_\+base, int value)
+void \mbox{\hyperlink{CF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018}{EF\+\_\+\+UART\+\_\+set\+Timeout\+Bits}} (uint32\+\_\+t uart\+\_\+base, int value)
 \begin{DoxyCompactList}\small\item\em sets the "{}timeout"{} field in configuration register which is receiver timeout measured in number of bits at which the timeout flag will be raised \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_abad90397a0d5f9b1559105971e24b585}{EF\+\_\+\+UART\+\_\+set\+Config}} (uint32\+\_\+t uart\+\_\+base, int config)
+void \mbox{\hyperlink{CF__UART_8h_abad90397a0d5f9b1559105971e24b585}{EF\+\_\+\+UART\+\_\+set\+Config}} (uint32\+\_\+t uart\+\_\+base, int config)
 \item 
-int \mbox{\hyperlink{EF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744}{EF\+\_\+\+UART\+\_\+get\+Config}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744}{EF\+\_\+\+UART\+\_\+get\+Config}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the value of the configuration register \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a998d1e7e9da992f65124ac26854513ec}{EF\+\_\+\+UART\+\_\+set\+Rx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base, int threshold)
+void \mbox{\hyperlink{CF__UART_8h_a998d1e7e9da992f65124ac26854513ec}{EF\+\_\+\+UART\+\_\+set\+Rx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base, int threshold)
 \begin{DoxyCompactList}\small\item\em sets the RX FIFO threshold to a certain value at which "{}\+RXA"{} interrupt will be raised \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a829e9820f1d010624994aa7590851721}{EF\+\_\+\+UART\+\_\+get\+Rx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a829e9820f1d010624994aa7590851721}{EF\+\_\+\+UART\+\_\+get\+Rx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the current value of the RX FIFO threshold \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b}{EF\+\_\+\+UART\+\_\+set\+Tx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base, int threshold)
+void \mbox{\hyperlink{CF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b}{EF\+\_\+\+UART\+\_\+set\+Tx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base, int threshold)
 \begin{DoxyCompactList}\small\item\em sets the TX FIFO threshold to a certain value at which "{}\+TXB"{} interrupt will be raised \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a6e89a406b1b3cff125032eff26043d3d}{EF\+\_\+\+UART\+\_\+get\+Tx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a6e89a406b1b3cff125032eff26043d3d}{EF\+\_\+\+UART\+\_\+get\+Tx\+FIFOThreshold}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the current value of the TX FIFO threshold \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098}{EF\+\_\+\+UART\+\_\+set\+FIFOControl}} (uint32\+\_\+t uart\+\_\+base, int value)
+void \mbox{\hyperlink{CF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098}{EF\+\_\+\+UART\+\_\+set\+FIFOControl}} (uint32\+\_\+t uart\+\_\+base, int value)
 \item 
-int \mbox{\hyperlink{EF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6}{EF\+\_\+\+UART\+\_\+get\+FIFOControl}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6}{EF\+\_\+\+UART\+\_\+get\+FIFOControl}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the value of the FIFO control register \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a24c0a12c701bbab2594a68148ccaf187}{EF\+\_\+\+UART\+\_\+get\+FIFOStatus}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a24c0a12c701bbab2594a68148ccaf187}{EF\+\_\+\+UART\+\_\+get\+FIFOStatus}} (uint32\+\_\+t uart\+\_\+base)
 \item 
-void \mbox{\hyperlink{EF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b}{EF\+\_\+\+UART\+\_\+set\+Match\+Data}} (uint32\+\_\+t uart\+\_\+base, int match\+Data)
+void \mbox{\hyperlink{CF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b}{EF\+\_\+\+UART\+\_\+set\+Match\+Data}} (uint32\+\_\+t uart\+\_\+base, int match\+Data)
 \begin{DoxyCompactList}\small\item\em sets the match\+Data to a certain value at which "{}\+MATCH"{} interrupt will be raised \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a471ea6bce689a667b0415208815a9005}{EF\+\_\+\+UART\+\_\+get\+Match\+Data}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a471ea6bce689a667b0415208815a9005}{EF\+\_\+\+UART\+\_\+get\+Match\+Data}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the value of the match data register \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_ab67855784d50b5c547378f5d5702c273}{EF\+\_\+\+UART\+\_\+get\+Tx\+Count}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_ab67855784d50b5c547378f5d5702c273}{EF\+\_\+\+UART\+\_\+get\+Tx\+Count}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the current level of the TX FIFO (the number of bytes in the FIFO) \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_ad473ded49b92582489495c207b425a01}{EF\+\_\+\+UART\+\_\+get\+Rx\+Count}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_ad473ded49b92582489495c207b425a01}{EF\+\_\+\+UART\+\_\+get\+Rx\+Count}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the current level of the RX FIFO (the number of bytes in the FIFO) \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a417529a40a07f0af36ba658f3a31fff5}{EF\+\_\+\+UART\+\_\+set\+Prescaler}} (uint32\+\_\+t uart\+\_\+base, int prescaler)
+void \mbox{\hyperlink{CF__UART_8h_a417529a40a07f0af36ba658f3a31fff5}{EF\+\_\+\+UART\+\_\+set\+Prescaler}} (uint32\+\_\+t uart\+\_\+base, int prescaler)
 \begin{DoxyCompactList}\small\item\em sets the prescaler to a certain value where Baud\+\_\+rate = Bus\+\_\+\+Clock\+\_\+\+Freq/((Prescaler+1)\texorpdfstring{$\ast$}{*}16) \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd}{EF\+\_\+\+UART\+\_\+get\+Prescaler}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd}{EF\+\_\+\+UART\+\_\+get\+Prescaler}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em returns the value of the prescaler \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_afb034e9ca5c75e87df32e77410dfffea}{EF\+\_\+\+UART\+\_\+get\+RIS}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_afb034e9ca5c75e87df32e77410dfffea}{EF\+\_\+\+UART\+\_\+get\+RIS}} (uint32\+\_\+t uart\+\_\+base)
 \item 
-int \mbox{\hyperlink{EF__UART_8h_a6ffee64b80995aff387251125ebeca80}{EF\+\_\+\+UART\+\_\+get\+MIS}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a6ffee64b80995aff387251125ebeca80}{EF\+\_\+\+UART\+\_\+get\+MIS}} (uint32\+\_\+t uart\+\_\+base)
 \item 
-void \mbox{\hyperlink{EF__UART_8h_af9fd462da652712e3d4c1a356af2b276}{EF\+\_\+\+UART\+\_\+set\+IM}} (uint32\+\_\+t uart\+\_\+base, int mask)
+void \mbox{\hyperlink{CF__UART_8h_af9fd462da652712e3d4c1a356af2b276}{EF\+\_\+\+UART\+\_\+set\+IM}} (uint32\+\_\+t uart\+\_\+base, int mask)
 \item 
-int \mbox{\hyperlink{EF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82}{EF\+\_\+\+UART\+\_\+get\+IM}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82}{EF\+\_\+\+UART\+\_\+get\+IM}} (uint32\+\_\+t uart\+\_\+base)
 \item 
-void \mbox{\hyperlink{EF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e}{EF\+\_\+\+UART\+\_\+set\+ICR}} (uint32\+\_\+t uart\+\_\+base, int mask)
+void \mbox{\hyperlink{CF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e}{EF\+\_\+\+UART\+\_\+set\+ICR}} (uint32\+\_\+t uart\+\_\+base, int mask)
 \item 
-void \mbox{\hyperlink{EF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a}{EF\+\_\+\+UART\+\_\+write\+Char\+Arr}} (uint32\+\_\+t uart\+\_\+base, const char \texorpdfstring{$\ast$}{*}char\+\_\+arr)
+void \mbox{\hyperlink{CF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a}{EF\+\_\+\+UART\+\_\+write\+Char\+Arr}} (uint32\+\_\+t uart\+\_\+base, const char \texorpdfstring{$\ast$}{*}char\+\_\+arr)
 \begin{DoxyCompactList}\small\item\em transmit an array of characters through uart \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{EF__UART_8h_a9219a3cffee150f100b55272eaae74da}{EF\+\_\+\+UART\+\_\+write\+Char}} (uint32\+\_\+t uart\+\_\+base, char data)
+void \mbox{\hyperlink{CF__UART_8h_a9219a3cffee150f100b55272eaae74da}{EF\+\_\+\+UART\+\_\+write\+Char}} (uint32\+\_\+t uart\+\_\+base, char data)
 \begin{DoxyCompactList}\small\item\em transmit a single character through uart \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{EF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9}{EF\+\_\+\+UART\+\_\+read\+Char}} (uint32\+\_\+t uart\+\_\+base)
+int \mbox{\hyperlink{CF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9}{EF\+\_\+\+UART\+\_\+read\+Char}} (uint32\+\_\+t uart\+\_\+base)
 \begin{DoxyCompactList}\small\item\em recieve a single character through uart \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -109,30 +109,30 @@ C header file for UART APIs which contains the function prototypes.
 
 
 \doxysubsection{Enumeration Type Documentation}
-\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10} 
+\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10} 
 \index{EF\_UART.h@{EF\_UART.h}!parity\_type@{parity\_type}}
 \index{parity\_type@{parity\_type}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{parity\_type}{parity\_type}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}}}
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NONE@{NONE}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!NONE@{NONE}}}\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NONE@{NONE}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!NONE@{NONE}}}\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10ac157bdf0b85a40d2619cbc8bc1ae5fe2} 
 NONE&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ODD@{ODD}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!ODD@{ODD}}}\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ODD@{ODD}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!ODD@{ODD}}}\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10aa29cedab858353a26006af9db7cd1ed8} 
 ODD&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EVEN@{EVEN}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!EVEN@{EVEN}}}\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EVEN@{EVEN}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!EVEN@{EVEN}}}\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a8487756fbc720579906f0ae1738f0fcc} 
 EVEN&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{STICKY\_0@{STICKY\_0}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!STICKY\_0@{STICKY\_0}}}\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STICKY\_0@{STICKY\_0}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!STICKY\_0@{STICKY\_0}}}\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10adedda6ce97e93d2a3e84ca7a704cd998} 
 STICKY\+\_\+0&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{STICKY\_1@{STICKY\_1}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!STICKY\_1@{STICKY\_1}}}\Hypertarget{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec}\label{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STICKY\_1@{STICKY\_1}!EF\_UART.h@{EF\_UART.h}}\index{EF\_UART.h@{EF\_UART.h}!STICKY\_1@{STICKY\_1}}}\Hypertarget{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec}\label{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10a0cc8b778b8f0b3fa4d7a084fddbc3cec} 
 STICKY\+\_\+1&\\
 \hline
 
@@ -140,7 +140,7 @@ STICKY\+\_\+1&\\
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{EF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1}\label{EF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1} 
+\Hypertarget{CF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1}\label{CF__UART_8h_a906f9de6fa1f7d7a3e251f9c8ecf3ba1} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_disable@{EF\_UART\_disable}}
 \index{EF\_UART\_disable@{EF\_UART\_disable}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_disable()}{EF\_UART\_disable()}}
@@ -155,7 +155,7 @@ disables using uart by clearing "{}en"{} bit in the control register
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a0b951370140c22de50546112916dbf0f}\label{EF__UART_8h_a0b951370140c22de50546112916dbf0f} 
+\Hypertarget{CF__UART_8h_a0b951370140c22de50546112916dbf0f}\label{CF__UART_8h_a0b951370140c22de50546112916dbf0f} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_disableGlitchFilter@{EF\_UART\_disableGlitchFilter}}
 \index{EF\_UART\_disableGlitchFilter@{EF\_UART\_disableGlitchFilter}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_disableGlitchFilter()}{EF\_UART\_disableGlitchFilter()}}
@@ -170,7 +170,7 @@ disables glitch filter (filter out noise or glitches on the received signal) by 
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f}\label{EF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f} 
+\Hypertarget{CF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f}\label{CF__UART_8h_a14b502b1b4f32f74147fa27ef594ec5f} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_disableLoopBack@{EF\_UART\_disableLoopBack}}
 \index{EF\_UART\_disableLoopBack@{EF\_UART\_disableLoopBack}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_disableLoopBack()}{EF\_UART\_disableLoopBack()}}
@@ -185,7 +185,7 @@ disables loopback (connecting TX to RX signal) by clearing "{}lpen"{} bit in the
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a8bbcb77cabef3983cca1118db94f33da}\label{EF__UART_8h_a8bbcb77cabef3983cca1118db94f33da} 
+\Hypertarget{CF__UART_8h_a8bbcb77cabef3983cca1118db94f33da}\label{CF__UART_8h_a8bbcb77cabef3983cca1118db94f33da} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_disableRx@{EF\_UART\_disableRx}}
 \index{EF\_UART\_disableRx@{EF\_UART\_disableRx}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_disableRx()}{EF\_UART\_disableRx()}}
@@ -200,7 +200,7 @@ disables using uart RX by clearing uart "{}rxen"{} bit in the control register
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82}\label{EF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82} 
+\Hypertarget{CF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82}\label{CF__UART_8h_a5fdfa5d0ceaf25c86265f08508d0ac82} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_disableTx@{EF\_UART\_disableTx}}
 \index{EF\_UART\_disableTx@{EF\_UART\_disableTx}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_disableTx()}{EF\_UART\_disableTx()}}
@@ -215,7 +215,7 @@ disables using uart TX by clearing uart "{}txen"{} bit in the control register
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_ac8fb76879468f536845efd63dd013023}\label{EF__UART_8h_ac8fb76879468f536845efd63dd013023} 
+\Hypertarget{CF__UART_8h_ac8fb76879468f536845efd63dd013023}\label{CF__UART_8h_ac8fb76879468f536845efd63dd013023} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_enable@{EF\_UART\_enable}}
 \index{EF\_UART\_enable@{EF\_UART\_enable}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_enable()}{EF\_UART\_enable()}}
@@ -230,7 +230,7 @@ enables using uart by setting "{}en"{} bit in the control register to 1
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08}\label{EF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08} 
+\Hypertarget{CF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08}\label{CF__UART_8h_a41e9f0fc22054ed60435b56e07cc2b08} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_enableGlitchFilter@{EF\_UART\_enableGlitchFilter}}
 \index{EF\_UART\_enableGlitchFilter@{EF\_UART\_enableGlitchFilter}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_enableGlitchFilter()}{EF\_UART\_enableGlitchFilter()}}
@@ -245,7 +245,7 @@ enables glitch filter (filter out noise or glitches on the received signal) by s
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a5b6c1522111c36f052d01ef8477d8708}\label{EF__UART_8h_a5b6c1522111c36f052d01ef8477d8708} 
+\Hypertarget{CF__UART_8h_a5b6c1522111c36f052d01ef8477d8708}\label{CF__UART_8h_a5b6c1522111c36f052d01ef8477d8708} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_enableLoopBack@{EF\_UART\_enableLoopBack}}
 \index{EF\_UART\_enableLoopBack@{EF\_UART\_enableLoopBack}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_enableLoopBack()}{EF\_UART\_enableLoopBack()}}
@@ -260,7 +260,7 @@ enables loopback (connecting TX to RX signal) by setting "{}lpen"{} bit in the c
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf}\label{EF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf} 
+\Hypertarget{CF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf}\label{CF__UART_8h_a27d08acb4a16fe736ec85a6809a8f4cf} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_enableRx@{EF\_UART\_enableRx}}
 \index{EF\_UART\_enableRx@{EF\_UART\_enableRx}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_enableRx()}{EF\_UART\_enableRx()}}
@@ -275,7 +275,7 @@ enables using uart RX by setting uart "{}rxen"{} bit in the control register to 
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e}\label{EF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e} 
+\Hypertarget{CF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e}\label{CF__UART_8h_a9e39d1b67dee9dc4eddecab799f2a73e} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_enableTx@{EF\_UART\_enableTx}}
 \index{EF\_UART\_enableTx@{EF\_UART\_enableTx}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_enableTx()}{EF\_UART\_enableTx()}}
@@ -290,7 +290,7 @@ enables using uart TX by setting uart "{}txen"{} bit in the control register to 
 {\em uart\+\_\+base} & The base memory address of UART registers. \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744}\label{EF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744} 
+\Hypertarget{CF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744}\label{CF__UART_8h_aae10f814cfbacb6ee771ddcc5b349744} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getConfig@{EF\_UART\_getConfig}}
 \index{EF\_UART\_getConfig@{EF\_UART\_getConfig}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getConfig()}{EF\_UART\_getConfig()}}
@@ -308,7 +308,7 @@ returns the value of the configuration register
 \begin{DoxyReturn}{Returns}
 configuration register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_ae932a6f49dc8556119957adf2d230714}\label{EF__UART_8h_ae932a6f49dc8556119957adf2d230714} 
+\Hypertarget{CF__UART_8h_ae932a6f49dc8556119957adf2d230714}\label{CF__UART_8h_ae932a6f49dc8556119957adf2d230714} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getCTRL@{EF\_UART\_getCTRL}}
 \index{EF\_UART\_getCTRL@{EF\_UART\_getCTRL}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getCTRL()}{EF\_UART\_getCTRL()}}
@@ -326,7 +326,7 @@ returns the value of the control register
 \begin{DoxyReturn}{Returns}
 control register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6}\label{EF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6} 
+\Hypertarget{CF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6}\label{CF__UART_8h_a044758d0138aeb24c6a87fda9c7de6c6} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getFIFOControl@{EF\_UART\_getFIFOControl}}
 \index{EF\_UART\_getFIFOControl@{EF\_UART\_getFIFOControl}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getFIFOControl()}{EF\_UART\_getFIFOControl()}}
@@ -344,7 +344,7 @@ returns the value of the FIFO control register
 \begin{DoxyReturn}{Returns}
 FIFO control register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a24c0a12c701bbab2594a68148ccaf187}\label{EF__UART_8h_a24c0a12c701bbab2594a68148ccaf187} 
+\Hypertarget{CF__UART_8h_a24c0a12c701bbab2594a68148ccaf187}\label{CF__UART_8h_a24c0a12c701bbab2594a68148ccaf187} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getFIFOStatus@{EF\_UART\_getFIFOStatus}}
 \index{EF\_UART\_getFIFOStatus@{EF\_UART\_getFIFOStatus}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getFIFOStatus()}{EF\_UART\_getFIFOStatus()}}
@@ -364,7 +364,7 @@ returns the value of the FIFO status register where
 \begin{DoxyReturn}{Returns}
 FIFO status register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82}\label{EF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82} 
+\Hypertarget{CF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82}\label{CF__UART_8h_a19e91976fc7aa7bc0d7aea10f9092c82} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getIM@{EF\_UART\_getIM}}
 \index{EF\_UART\_getIM@{EF\_UART\_getIM}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getIM()}{EF\_UART\_getIM()}}
@@ -392,7 +392,7 @@ returns the value of the Interrupts Masking Register; which enable and disables 
 \begin{DoxyReturn}{Returns}
 IM register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a471ea6bce689a667b0415208815a9005}\label{EF__UART_8h_a471ea6bce689a667b0415208815a9005} 
+\Hypertarget{CF__UART_8h_a471ea6bce689a667b0415208815a9005}\label{CF__UART_8h_a471ea6bce689a667b0415208815a9005} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getMatchData@{EF\_UART\_getMatchData}}
 \index{EF\_UART\_getMatchData@{EF\_UART\_getMatchData}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getMatchData()}{EF\_UART\_getMatchData()}}
@@ -410,7 +410,7 @@ returns the value of the match data register
 \begin{DoxyReturn}{Returns}
 match data register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a6ffee64b80995aff387251125ebeca80}\label{EF__UART_8h_a6ffee64b80995aff387251125ebeca80} 
+\Hypertarget{CF__UART_8h_a6ffee64b80995aff387251125ebeca80}\label{CF__UART_8h_a6ffee64b80995aff387251125ebeca80} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getMIS@{EF\_UART\_getMIS}}
 \index{EF\_UART\_getMIS@{EF\_UART\_getMIS}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getMIS()}{EF\_UART\_getMIS()}}
@@ -438,7 +438,7 @@ returns the value of the Masked Interrupt Status Register
 \begin{DoxyReturn}{Returns}
 MIS register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd}\label{EF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd} 
+\Hypertarget{CF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd}\label{CF__UART_8h_a2d7077f683a7553f9c178ecfd058d1bd} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getPrescaler@{EF\_UART\_getPrescaler}}
 \index{EF\_UART\_getPrescaler@{EF\_UART\_getPrescaler}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getPrescaler()}{EF\_UART\_getPrescaler()}}
@@ -456,7 +456,7 @@ returns the value of the prescaler
 \begin{DoxyReturn}{Returns}
 prescaler register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_afb034e9ca5c75e87df32e77410dfffea}\label{EF__UART_8h_afb034e9ca5c75e87df32e77410dfffea} 
+\Hypertarget{CF__UART_8h_afb034e9ca5c75e87df32e77410dfffea}\label{CF__UART_8h_afb034e9ca5c75e87df32e77410dfffea} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getRIS@{EF\_UART\_getRIS}}
 \index{EF\_UART\_getRIS@{EF\_UART\_getRIS}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getRIS()}{EF\_UART\_getRIS()}}
@@ -484,7 +484,7 @@ returns the value of the Raw Interrupt Status Register
 \begin{DoxyReturn}{Returns}
 RIS register value 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_ad473ded49b92582489495c207b425a01}\label{EF__UART_8h_ad473ded49b92582489495c207b425a01} 
+\Hypertarget{CF__UART_8h_ad473ded49b92582489495c207b425a01}\label{CF__UART_8h_ad473ded49b92582489495c207b425a01} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getRxCount@{EF\_UART\_getRxCount}}
 \index{EF\_UART\_getRxCount@{EF\_UART\_getRxCount}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getRxCount()}{EF\_UART\_getRxCount()}}
@@ -502,7 +502,7 @@ returns the current level of the RX FIFO (the number of bytes in the FIFO)
 \begin{DoxyReturn}{Returns}
 RX FIFO level register 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a829e9820f1d010624994aa7590851721}\label{EF__UART_8h_a829e9820f1d010624994aa7590851721} 
+\Hypertarget{CF__UART_8h_a829e9820f1d010624994aa7590851721}\label{CF__UART_8h_a829e9820f1d010624994aa7590851721} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getRxFIFOThreshold@{EF\_UART\_getRxFIFOThreshold}}
 \index{EF\_UART\_getRxFIFOThreshold@{EF\_UART\_getRxFIFOThreshold}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getRxFIFOThreshold()}{EF\_UART\_getRxFIFOThreshold()}}
@@ -520,7 +520,7 @@ returns the current value of the RX FIFO threshold
 \begin{DoxyReturn}{Returns}
 RX FIFO threshold register 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_ab67855784d50b5c547378f5d5702c273}\label{EF__UART_8h_ab67855784d50b5c547378f5d5702c273} 
+\Hypertarget{CF__UART_8h_ab67855784d50b5c547378f5d5702c273}\label{CF__UART_8h_ab67855784d50b5c547378f5d5702c273} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getTxCount@{EF\_UART\_getTxCount}}
 \index{EF\_UART\_getTxCount@{EF\_UART\_getTxCount}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getTxCount()}{EF\_UART\_getTxCount()}}
@@ -538,7 +538,7 @@ returns the current level of the TX FIFO (the number of bytes in the FIFO)
 \begin{DoxyReturn}{Returns}
 TX FIFO level register 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a6e89a406b1b3cff125032eff26043d3d}\label{EF__UART_8h_a6e89a406b1b3cff125032eff26043d3d} 
+\Hypertarget{CF__UART_8h_a6e89a406b1b3cff125032eff26043d3d}\label{CF__UART_8h_a6e89a406b1b3cff125032eff26043d3d} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_getTxFIFOThreshold@{EF\_UART\_getTxFIFOThreshold}}
 \index{EF\_UART\_getTxFIFOThreshold@{EF\_UART\_getTxFIFOThreshold}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_getTxFIFOThreshold()}{EF\_UART\_getTxFIFOThreshold()}}
@@ -556,7 +556,7 @@ returns the current value of the TX FIFO threshold
 \begin{DoxyReturn}{Returns}
 TX FIFO threshold register 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9}\label{EF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9} 
+\Hypertarget{CF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9}\label{CF__UART_8h_a727b43ac98a06b2e2a0c31c305e3e2f9} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_readChar@{EF\_UART\_readChar}}
 \index{EF\_UART\_readChar@{EF\_UART\_readChar}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_readChar()}{EF\_UART\_readChar()}}
@@ -574,7 +574,7 @@ recieve a single character through uart
 \begin{DoxyReturn}{Returns}
 the byte recieved 
 \end{DoxyReturn}
-\Hypertarget{EF__UART_8h_abad90397a0d5f9b1559105971e24b585}\label{EF__UART_8h_abad90397a0d5f9b1559105971e24b585} 
+\Hypertarget{CF__UART_8h_abad90397a0d5f9b1559105971e24b585}\label{CF__UART_8h_abad90397a0d5f9b1559105971e24b585} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setConfig@{EF\_UART\_setConfig}}
 \index{EF\_UART\_setConfig@{EF\_UART\_setConfig}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setConfig()}{EF\_UART\_setConfig()}}
@@ -595,7 +595,7 @@ sets the configuration register to a certain value where
 {\em config} & The value of the configuration register \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a93420e961b8b16ec1d4e19565a89338f}\label{EF__UART_8h_a93420e961b8b16ec1d4e19565a89338f} 
+\Hypertarget{CF__UART_8h_a93420e961b8b16ec1d4e19565a89338f}\label{CF__UART_8h_a93420e961b8b16ec1d4e19565a89338f} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setCTRL@{EF\_UART\_setCTRL}}
 \index{EF\_UART\_setCTRL@{EF\_UART\_setCTRL}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setCTRL()}{EF\_UART\_setCTRL()}}
@@ -617,7 +617,7 @@ sets the control register to a certain value where
 {\em value} & The value of the control register \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7}\label{EF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7} 
+\Hypertarget{CF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7}\label{CF__UART_8h_a29ad6f2b0288e0a90421b7755b4ea6d7} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setDataSize@{EF\_UART\_setDataSize}}
 \index{EF\_UART\_setDataSize@{EF\_UART\_setDataSize}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setDataSize()}{EF\_UART\_setDataSize()}}
@@ -635,7 +635,7 @@ sets the Data Size (Data word length\+: 5-\/9 bits ) by setting the "{}wlen"{} f
  \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098}\label{EF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098} 
+\Hypertarget{CF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098}\label{CF__UART_8h_ade8fde5e588c22e9bdf3b68f26469098} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setFIFOControl@{EF\_UART\_setFIFOControl}}
 \index{EF\_UART\_setFIFOControl@{EF\_UART\_setFIFOControl}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setFIFOControl()}{EF\_UART\_setFIFOControl()}}
@@ -654,7 +654,7 @@ sets the FIFO control register to a certain value where
 {\em config} & The value of the FIFO control register \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e}\label{EF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e} 
+\Hypertarget{CF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e}\label{CF__UART_8h_a71cf6e226bdc78fa9e36f40b4039fe8e} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setICR@{EF\_UART\_setICR}}
 \index{EF\_UART\_setICR@{EF\_UART\_setICR}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setICR()}{EF\_UART\_setICR()}}
@@ -681,7 +681,7 @@ sets the value of the Interrupts Clear Register; write 1 to clear the flag
 {\em mask} & The required mask value \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_af9fd462da652712e3d4c1a356af2b276}\label{EF__UART_8h_af9fd462da652712e3d4c1a356af2b276} 
+\Hypertarget{CF__UART_8h_af9fd462da652712e3d4c1a356af2b276}\label{CF__UART_8h_af9fd462da652712e3d4c1a356af2b276} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setIM@{EF\_UART\_setIM}}
 \index{EF\_UART\_setIM@{EF\_UART\_setIM}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setIM()}{EF\_UART\_setIM()}}
@@ -708,7 +708,7 @@ sets the value of the Interrupts Masking Register; which enable and disables int
 {\em mask} & The required mask value \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b}\label{EF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b} 
+\Hypertarget{CF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b}\label{CF__UART_8h_a65715703fe82c3f9fb235cf6b0f62e7b} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setMatchData@{EF\_UART\_setMatchData}}
 \index{EF\_UART\_setMatchData@{EF\_UART\_setMatchData}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setMatchData()}{EF\_UART\_setMatchData()}}
@@ -726,11 +726,11 @@ sets the match\+Data to a certain value at which "{}\+MATCH"{} interrupt will be
  \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a61f34f093714af424473fa57fb04cfc5}\label{EF__UART_8h_a61f34f093714af424473fa57fb04cfc5} 
+\Hypertarget{CF__UART_8h_a61f34f093714af424473fa57fb04cfc5}\label{CF__UART_8h_a61f34f093714af424473fa57fb04cfc5} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setParityType@{EF\_UART\_setParityType}}
 \index{EF\_UART\_setParityType@{EF\_UART\_setParityType}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setParityType()}{EF\_UART\_setParityType()}}
-{\footnotesize\ttfamily void EF\+\_\+\+UART\+\_\+set\+Parity\+Type (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{uart\+\_\+base,  }\item[{enum \mbox{\hyperlink{EF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}}}]{parity }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void EF\+\_\+\+UART\+\_\+set\+Parity\+Type (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{uart\+\_\+base,  }\item[{enum \mbox{\hyperlink{CF__UART_8h_aab5cbb4a185bfe65a14e19beeaba4f10}{parity\+\_\+type}}}]{parity }\end{DoxyParamCaption})}
 
 
 
@@ -743,7 +743,7 @@ sets the "{}parity"{} field in configuration register (could be none, odd, even,
 {\em parity} & enum parity\+\_\+type could be "{}\+NONE"{} , "{}\+ODD"{} , "{}\+EVEN"{} , "{}\+STICKY\+\_\+0"{} , or "{}\+STICKY\+\_\+1"{} \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a417529a40a07f0af36ba658f3a31fff5}\label{EF__UART_8h_a417529a40a07f0af36ba658f3a31fff5} 
+\Hypertarget{CF__UART_8h_a417529a40a07f0af36ba658f3a31fff5}\label{CF__UART_8h_a417529a40a07f0af36ba658f3a31fff5} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setPrescaler@{EF\_UART\_setPrescaler}}
 \index{EF\_UART\_setPrescaler@{EF\_UART\_setPrescaler}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setPrescaler()}{EF\_UART\_setPrescaler()}}
@@ -760,7 +760,7 @@ sets the prescaler to a certain value where Baud\+\_\+rate = Bus\+\_\+\+Clock\+\
 {\em prescaler} & The value of the required prescaler \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a998d1e7e9da992f65124ac26854513ec}\label{EF__UART_8h_a998d1e7e9da992f65124ac26854513ec} 
+\Hypertarget{CF__UART_8h_a998d1e7e9da992f65124ac26854513ec}\label{CF__UART_8h_a998d1e7e9da992f65124ac26854513ec} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setRxFIFOThreshold@{EF\_UART\_setRxFIFOThreshold}}
 \index{EF\_UART\_setRxFIFOThreshold@{EF\_UART\_setRxFIFOThreshold}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setRxFIFOThreshold()}{EF\_UART\_setRxFIFOThreshold()}}
@@ -777,7 +777,7 @@ sets the RX FIFO threshold to a certain value at which "{}\+RXA"{} interrupt wil
 {\em threshold} & The value of the required threshold \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018}\label{EF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018} 
+\Hypertarget{CF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018}\label{CF__UART_8h_ab56dac54958dce9684d6ad1cd26d1018} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setTimeoutBits@{EF\_UART\_setTimeoutBits}}
 \index{EF\_UART\_setTimeoutBits@{EF\_UART\_setTimeoutBits}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setTimeoutBits()}{EF\_UART\_setTimeoutBits()}}
@@ -794,7 +794,7 @@ sets the "{}timeout"{} field in configuration register which is receiver timeout
 {\em value} & timeout bits value \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_ad9196d00146f379a9e90b260b4545209}\label{EF__UART_8h_ad9196d00146f379a9e90b260b4545209} 
+\Hypertarget{CF__UART_8h_ad9196d00146f379a9e90b260b4545209}\label{CF__UART_8h_ad9196d00146f379a9e90b260b4545209} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setTwoStopBitsSelect@{EF\_UART\_setTwoStopBitsSelect}}
 \index{EF\_UART\_setTwoStopBitsSelect@{EF\_UART\_setTwoStopBitsSelect}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setTwoStopBitsSelect()}{EF\_UART\_setTwoStopBitsSelect()}}
@@ -811,7 +811,7 @@ sets the "{}stp2"{} bit in configuration register (whether the stop boits are tw
 {\em is\+\_\+two\+\_\+bits} & bool value, if "{}true"{}, the stop bits are two and if "{}false"{}, the stop bit is one \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b}\label{EF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b} 
+\Hypertarget{CF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b}\label{CF__UART_8h_a416b4fb1a37947fefee94fdcd2b6175b} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_setTxFIFOThreshold@{EF\_UART\_setTxFIFOThreshold}}
 \index{EF\_UART\_setTxFIFOThreshold@{EF\_UART\_setTxFIFOThreshold}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_setTxFIFOThreshold()}{EF\_UART\_setTxFIFOThreshold()}}
@@ -828,7 +828,7 @@ sets the TX FIFO threshold to a certain value at which "{}\+TXB"{} interrupt wil
 {\em threshold} & The value of the required threshold \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a9219a3cffee150f100b55272eaae74da}\label{EF__UART_8h_a9219a3cffee150f100b55272eaae74da} 
+\Hypertarget{CF__UART_8h_a9219a3cffee150f100b55272eaae74da}\label{CF__UART_8h_a9219a3cffee150f100b55272eaae74da} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_writeChar@{EF\_UART\_writeChar}}
 \index{EF\_UART\_writeChar@{EF\_UART\_writeChar}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_writeChar()}{EF\_UART\_writeChar()}}
@@ -845,7 +845,7 @@ transmit a single character through uart
 {\em data} & The character or byte required to send \\
 \hline
 \end{DoxyParams}
-\Hypertarget{EF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a}\label{EF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a} 
+\Hypertarget{CF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a}\label{CF__UART_8h_a45b53dbb72f6493a763d6176eb56ef2a} 
 \index{EF\_UART.h@{EF\_UART.h}!EF\_UART\_writeCharArr@{EF\_UART\_writeCharArr}}
 \index{EF\_UART\_writeCharArr@{EF\_UART\_writeCharArr}!EF\_UART.h@{EF\_UART.h}}
 \doxysubsubsection{\texorpdfstring{EF\_UART\_writeCharArr()}{EF\_UART\_writeCharArr()}}
