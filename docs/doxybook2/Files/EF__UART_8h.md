@@ -1,10 +1,10 @@
 ---
-title: EF_UART.h
+title: CF_UART.h
 summary: C header file for UART APIs which contains the function prototypes. 
 
 ---
 
-# EF_UART.h
+# CF_UART.h
 
 C header file for UART APIs which contains the function prototypes. 
 
@@ -12,51 +12,51 @@ C header file for UART APIs which contains the function prototypes.
 
 |                | Name           |
 | -------------- | -------------- |
-| enum| **[parity_type](Files/EF__UART_8h.md#enum-parity-type)** { NONE = 0, ODD = 1, EVEN = 2, STICKY_0 = 4, STICKY_1 = 5} |
+| enum| **[parity_type](Files/CF__UART_8h.md#enum-parity-type)** { NONE = 0, ODD = 1, EVEN = 2, STICKY_0 = 4, STICKY_1 = 5} |
 
 ## Functions
 
 |                | Name           |
 | -------------- | -------------- |
-| void | **[EF_UART_enable](Files/EF__UART_8h.md#function-ef-uart-enable)**(uint32_t uart_base)<br>enables using uart by setting "en" bit in the control register to 1  |
-| void | **[EF_UART_disable](Files/EF__UART_8h.md#function-ef-uart-disable)**(uint32_t uart_base)<br>disables using uart by clearing "en" bit in the control register  |
-| void | **[EF_UART_enableRx](Files/EF__UART_8h.md#function-ef-uart-enablerx)**(uint32_t uart_base)<br>enables using uart RX by setting uart "rxen" bit in the control register to 1  |
-| void | **[EF_UART_disableRx](Files/EF__UART_8h.md#function-ef-uart-disablerx)**(uint32_t uart_base)<br>disables using uart RX by clearing uart "rxen" bit in the control register  |
-| void | **[EF_UART_enableTx](Files/EF__UART_8h.md#function-ef-uart-enabletx)**(uint32_t uart_base)<br>enables using uart TX by setting uart "txen" bit in the control register to 1  |
-| void | **[EF_UART_disableTx](Files/EF__UART_8h.md#function-ef-uart-disabletx)**(uint32_t uart_base)<br>disables using uart TX by clearing uart "txen" bit in the control register  |
-| void | **[EF_UART_enableLoopBack](Files/EF__UART_8h.md#function-ef-uart-enableloopback)**(uint32_t uart_base)<br>enables loopback (connecting TX to RX signal) by setting "lpen" bit in the control register to 1  |
-| void | **[EF_UART_disableLoopBack](Files/EF__UART_8h.md#function-ef-uart-disableloopback)**(uint32_t uart_base)<br>disables loopback (connecting TX to RX signal) by clearing "lpen" bit in the control register  |
-| void | **[EF_UART_enableGlitchFilter](Files/EF__UART_8h.md#function-ef-uart-enableglitchfilter)**(uint32_t uart_base)<br>enables glitch filter (filter out noise or glitches on the received signal) by setting "gfen" bit in the control register to 1  |
-| void | **[EF_UART_disableGlitchFilter](Files/EF__UART_8h.md#function-ef-uart-disableglitchfilter)**(uint32_t uart_base)<br>disables glitch filter (filter out noise or glitches on the received signal) by clearing "gfen" bit in the control register  |
-| void | **[EF_UART_setCTRL](Files/EF__UART_8h.md#function-ef-uart-setctrl)**(uint32_t uart_base, int value) |
-| int | **[EF_UART_getCTRL](Files/EF__UART_8h.md#function-ef-uart-getctrl)**(uint32_t uart_base)<br>returns the value of the control register  |
-| void | **[EF_UART_setDataSize](Files/EF__UART_8h.md#function-ef-uart-setdatasize)**(uint32_t uart_base, int value)<br>sets the Data Size (Data word length: 5-9 bits ) by setting the "wlen" field in configuration register  |
-| void | **[EF_UART_setTwoStopBitsSelect](Files/EF__UART_8h.md#function-ef-uart-settwostopbitsselect)**(uint32_t uart_base, bool is_two_bits)<br>sets the "stp2" bit in configuration register (whether the stop boits are two or one)  |
-| void | **[EF_UART_setParityType](Files/EF__UART_8h.md#function-ef-uart-setparitytype)**(uint32_t uart_base, enum [parity_type](Files/EF__UART_8h.md#enum-parity-type) parity)<br>sets the "parity" field in configuration register (could be none, odd, even, sticky 0 or sticky 1)  |
-| void | **[EF_UART_setTimeoutBits](Files/EF__UART_8h.md#function-ef-uart-settimeoutbits)**(uint32_t uart_base, int value)<br>sets the "timeout" field in configuration register which is receiver timeout measured in number of bits at which the timeout flag will be raised  |
-| void | **[EF_UART_setConfig](Files/EF__UART_8h.md#function-ef-uart-setconfig)**(uint32_t uart_base, int config) |
-| int | **[EF_UART_getConfig](Files/EF__UART_8h.md#function-ef-uart-getconfig)**(uint32_t uart_base)<br>returns the value of the configuration register  |
-| void | **[EF_UART_setRxFIFOThreshold](Files/EF__UART_8h.md#function-ef-uart-setrxfifothreshold)**(uint32_t uart_base, int threshold)<br>sets the RX FIFO threshold to a certain value at which "RXA" interrupt will be raised  |
-| int | **[EF_UART_getRxFIFOThreshold](Files/EF__UART_8h.md#function-ef-uart-getrxfifothreshold)**(uint32_t uart_base)<br>returns the current value of the RX FIFO threshold  |
-| void | **[EF_UART_setTxFIFOThreshold](Files/EF__UART_8h.md#function-ef-uart-settxfifothreshold)**(uint32_t uart_base, int threshold)<br>sets the TX FIFO threshold to a certain value at which "TXB" interrupt will be raised  |
-| int | **[EF_UART_getTxFIFOThreshold](Files/EF__UART_8h.md#function-ef-uart-gettxfifothreshold)**(uint32_t uart_base)<br>returns the current value of the TX FIFO threshold  |
-| void | **[EF_UART_setFIFOControl](Files/EF__UART_8h.md#function-ef-uart-setfifocontrol)**(uint32_t uart_base, int value) |
-| int | **[EF_UART_getFIFOControl](Files/EF__UART_8h.md#function-ef-uart-getfifocontrol)**(uint32_t uart_base)<br>returns the value of the FIFO control register  |
-| int | **[EF_UART_getFIFOStatus](Files/EF__UART_8h.md#function-ef-uart-getfifostatus)**(uint32_t uart_base) |
-| void | **[EF_UART_setMatchData](Files/EF__UART_8h.md#function-ef-uart-setmatchdata)**(uint32_t uart_base, int matchData)<br>sets the matchData to a certain value at which "MATCH" interrupt will be raised  |
-| int | **[EF_UART_getMatchData](Files/EF__UART_8h.md#function-ef-uart-getmatchdata)**(uint32_t uart_base)<br>returns the value of the match data register  |
-| int | **[EF_UART_getTxCount](Files/EF__UART_8h.md#function-ef-uart-gettxcount)**(uint32_t uart_base)<br>returns the current level of the TX FIFO (the number of bytes in the FIFO)  |
-| int | **[EF_UART_getRxCount](Files/EF__UART_8h.md#function-ef-uart-getrxcount)**(uint32_t uart_base)<br>returns the current level of the RX FIFO (the number of bytes in the FIFO)  |
-| void | **[EF_UART_setPrescaler](Files/EF__UART_8h.md#function-ef-uart-setprescaler)**(uint32_t uart_base, int prescaler)<br>sets the prescaler to a certain value where Baud_rate = Bus_Clock_Freq/((Prescaler+1)*16)  |
-| int | **[EF_UART_getPrescaler](Files/EF__UART_8h.md#function-ef-uart-getprescaler)**(uint32_t uart_base)<br>returns the value of the prescaler  |
-| int | **[EF_UART_getRIS](Files/EF__UART_8h.md#function-ef-uart-getris)**(uint32_t uart_base) |
-| int | **[EF_UART_getMIS](Files/EF__UART_8h.md#function-ef-uart-getmis)**(uint32_t uart_base) |
-| void | **[EF_UART_setIM](Files/EF__UART_8h.md#function-ef-uart-setim)**(uint32_t uart_base, int mask) |
-| int | **[EF_UART_getIM](Files/EF__UART_8h.md#function-ef-uart-getim)**(uint32_t uart_base) |
-| void | **[EF_UART_setICR](Files/EF__UART_8h.md#function-ef-uart-seticr)**(uint32_t uart_base, int mask) |
-| void | **[EF_UART_writeCharArr](Files/EF__UART_8h.md#function-ef-uart-writechararr)**(uint32_t uart_base, const char * char_arr)<br>transmit an array of characters through uart  |
-| void | **[EF_UART_writeChar](Files/EF__UART_8h.md#function-ef-uart-writechar)**(uint32_t uart_base, char data)<br>transmit a single character through uart  |
-| int | **[EF_UART_readChar](Files/EF__UART_8h.md#function-ef-uart-readchar)**(uint32_t uart_base)<br>recieve a single character through uart  |
+| void | **[CF_UART_enable](Files/CF__UART_8h.md#function-ef-uart-enable)**(uint32_t uart_base)<br>enables using uart by setting "en" bit in the control register to 1  |
+| void | **[CF_UART_disable](Files/CF__UART_8h.md#function-ef-uart-disable)**(uint32_t uart_base)<br>disables using uart by clearing "en" bit in the control register  |
+| void | **[CF_UART_enableRx](Files/CF__UART_8h.md#function-ef-uart-enablerx)**(uint32_t uart_base)<br>enables using uart RX by setting uart "rxen" bit in the control register to 1  |
+| void | **[CF_UART_disableRx](Files/CF__UART_8h.md#function-ef-uart-disablerx)**(uint32_t uart_base)<br>disables using uart RX by clearing uart "rxen" bit in the control register  |
+| void | **[CF_UART_enableTx](Files/CF__UART_8h.md#function-ef-uart-enabletx)**(uint32_t uart_base)<br>enables using uart TX by setting uart "txen" bit in the control register to 1  |
+| void | **[CF_UART_disableTx](Files/CF__UART_8h.md#function-ef-uart-disabletx)**(uint32_t uart_base)<br>disables using uart TX by clearing uart "txen" bit in the control register  |
+| void | **[CF_UART_enableLoopBack](Files/CF__UART_8h.md#function-ef-uart-enableloopback)**(uint32_t uart_base)<br>enables loopback (connecting TX to RX signal) by setting "lpen" bit in the control register to 1  |
+| void | **[CF_UART_disableLoopBack](Files/CF__UART_8h.md#function-ef-uart-disableloopback)**(uint32_t uart_base)<br>disables loopback (connecting TX to RX signal) by clearing "lpen" bit in the control register  |
+| void | **[CF_UART_enableGlitchFilter](Files/CF__UART_8h.md#function-ef-uart-enableglitchfilter)**(uint32_t uart_base)<br>enables glitch filter (filter out noise or glitches on the received signal) by setting "gfen" bit in the control register to 1  |
+| void | **[CF_UART_disableGlitchFilter](Files/CF__UART_8h.md#function-ef-uart-disableglitchfilter)**(uint32_t uart_base)<br>disables glitch filter (filter out noise or glitches on the received signal) by clearing "gfen" bit in the control register  |
+| void | **[CF_UART_setCTRL](Files/CF__UART_8h.md#function-ef-uart-setctrl)**(uint32_t uart_base, int value) |
+| int | **[CF_UART_getCTRL](Files/CF__UART_8h.md#function-ef-uart-getctrl)**(uint32_t uart_base)<br>returns the value of the control register  |
+| void | **[CF_UART_setDataSize](Files/CF__UART_8h.md#function-ef-uart-setdatasize)**(uint32_t uart_base, int value)<br>sets the Data Size (Data word length: 5-9 bits ) by setting the "wlen" field in configuration register  |
+| void | **[CF_UART_setTwoStopBitsSelect](Files/CF__UART_8h.md#function-ef-uart-settwostopbitsselect)**(uint32_t uart_base, bool is_two_bits)<br>sets the "stp2" bit in configuration register (whether the stop boits are two or one)  |
+| void | **[CF_UART_setParityType](Files/CF__UART_8h.md#function-ef-uart-setparitytype)**(uint32_t uart_base, enum [parity_type](Files/CF__UART_8h.md#enum-parity-type) parity)<br>sets the "parity" field in configuration register (could be none, odd, even, sticky 0 or sticky 1)  |
+| void | **[CF_UART_setTimeoutBits](Files/CF__UART_8h.md#function-ef-uart-settimeoutbits)**(uint32_t uart_base, int value)<br>sets the "timeout" field in configuration register which is receiver timeout measured in number of bits at which the timeout flag will be raised  |
+| void | **[CF_UART_setConfig](Files/CF__UART_8h.md#function-ef-uart-setconfig)**(uint32_t uart_base, int config) |
+| int | **[CF_UART_getConfig](Files/CF__UART_8h.md#function-ef-uart-getconfig)**(uint32_t uart_base)<br>returns the value of the configuration register  |
+| void | **[CF_UART_setRxFIFOThreshold](Files/CF__UART_8h.md#function-ef-uart-setrxfifothreshold)**(uint32_t uart_base, int threshold)<br>sets the RX FIFO threshold to a certain value at which "RXA" interrupt will be raised  |
+| int | **[CF_UART_getRxFIFOThreshold](Files/CF__UART_8h.md#function-ef-uart-getrxfifothreshold)**(uint32_t uart_base)<br>returns the current value of the RX FIFO threshold  |
+| void | **[CF_UART_setTxFIFOThreshold](Files/CF__UART_8h.md#function-ef-uart-settxfifothreshold)**(uint32_t uart_base, int threshold)<br>sets the TX FIFO threshold to a certain value at which "TXB" interrupt will be raised  |
+| int | **[CF_UART_getTxFIFOThreshold](Files/CF__UART_8h.md#function-ef-uart-gettxfifothreshold)**(uint32_t uart_base)<br>returns the current value of the TX FIFO threshold  |
+| void | **[CF_UART_setFIFOControl](Files/CF__UART_8h.md#function-ef-uart-setfifocontrol)**(uint32_t uart_base, int value) |
+| int | **[CF_UART_getFIFOControl](Files/CF__UART_8h.md#function-ef-uart-getfifocontrol)**(uint32_t uart_base)<br>returns the value of the FIFO control register  |
+| int | **[CF_UART_getFIFOStatus](Files/CF__UART_8h.md#function-ef-uart-getfifostatus)**(uint32_t uart_base) |
+| void | **[CF_UART_setMatchData](Files/CF__UART_8h.md#function-ef-uart-setmatchdata)**(uint32_t uart_base, int matchData)<br>sets the matchData to a certain value at which "MATCH" interrupt will be raised  |
+| int | **[CF_UART_getMatchData](Files/CF__UART_8h.md#function-ef-uart-getmatchdata)**(uint32_t uart_base)<br>returns the value of the match data register  |
+| int | **[CF_UART_getTxCount](Files/CF__UART_8h.md#function-ef-uart-gettxcount)**(uint32_t uart_base)<br>returns the current level of the TX FIFO (the number of bytes in the FIFO)  |
+| int | **[CF_UART_getRxCount](Files/CF__UART_8h.md#function-ef-uart-getrxcount)**(uint32_t uart_base)<br>returns the current level of the RX FIFO (the number of bytes in the FIFO)  |
+| void | **[CF_UART_setPrescaler](Files/CF__UART_8h.md#function-ef-uart-setprescaler)**(uint32_t uart_base, int prescaler)<br>sets the prescaler to a certain value where Baud_rate = Bus_Clock_Freq/((Prescaler+1)*16)  |
+| int | **[CF_UART_getPrescaler](Files/CF__UART_8h.md#function-ef-uart-getprescaler)**(uint32_t uart_base)<br>returns the value of the prescaler  |
+| int | **[CF_UART_getRIS](Files/CF__UART_8h.md#function-ef-uart-getris)**(uint32_t uart_base) |
+| int | **[CF_UART_getMIS](Files/CF__UART_8h.md#function-ef-uart-getmis)**(uint32_t uart_base) |
+| void | **[CF_UART_setIM](Files/CF__UART_8h.md#function-ef-uart-setim)**(uint32_t uart_base, int mask) |
+| int | **[CF_UART_getIM](Files/CF__UART_8h.md#function-ef-uart-getim)**(uint32_t uart_base) |
+| void | **[CF_UART_setICR](Files/CF__UART_8h.md#function-ef-uart-seticr)**(uint32_t uart_base, int mask) |
+| void | **[CF_UART_writeCharArr](Files/CF__UART_8h.md#function-ef-uart-writechararr)**(uint32_t uart_base, const char * char_arr)<br>transmit an array of characters through uart  |
+| void | **[CF_UART_writeChar](Files/CF__UART_8h.md#function-ef-uart-writechar)**(uint32_t uart_base, char data)<br>transmit a single character through uart  |
+| int | **[CF_UART_readChar](Files/CF__UART_8h.md#function-ef-uart-readchar)**(uint32_t uart_base)<br>recieve a single character through uart  |
 
 ## Types Documentation
 
@@ -76,10 +76,10 @@ C header file for UART APIs which contains the function prototypes.
 
 ## Functions Documentation
 
-### function EF_UART_enable
+### function CF_UART_enable
 
 ```cpp
-void EF_UART_enable(
+void CF_UART_enable(
     uint32_t uart_base
 )
 ```
@@ -91,10 +91,10 @@ enables using uart by setting "en" bit in the control register to 1
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_disable
+### function CF_UART_disable
 
 ```cpp
-void EF_UART_disable(
+void CF_UART_disable(
     uint32_t uart_base
 )
 ```
@@ -106,10 +106,10 @@ disables using uart by clearing "en" bit in the control register
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_enableRx
+### function CF_UART_enableRx
 
 ```cpp
-void EF_UART_enableRx(
+void CF_UART_enableRx(
     uint32_t uart_base
 )
 ```
@@ -121,10 +121,10 @@ enables using uart RX by setting uart "rxen" bit in the control register to 1
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_disableRx
+### function CF_UART_disableRx
 
 ```cpp
-void EF_UART_disableRx(
+void CF_UART_disableRx(
     uint32_t uart_base
 )
 ```
@@ -136,10 +136,10 @@ disables using uart RX by clearing uart "rxen" bit in the control register
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_enableTx
+### function CF_UART_enableTx
 
 ```cpp
-void EF_UART_enableTx(
+void CF_UART_enableTx(
     uint32_t uart_base
 )
 ```
@@ -151,10 +151,10 @@ enables using uart TX by setting uart "txen" bit in the control register to 1
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_disableTx
+### function CF_UART_disableTx
 
 ```cpp
-void EF_UART_disableTx(
+void CF_UART_disableTx(
     uint32_t uart_base
 )
 ```
@@ -166,10 +166,10 @@ disables using uart TX by clearing uart "txen" bit in the control register
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_enableLoopBack
+### function CF_UART_enableLoopBack
 
 ```cpp
-void EF_UART_enableLoopBack(
+void CF_UART_enableLoopBack(
     uint32_t uart_base
 )
 ```
@@ -181,10 +181,10 @@ enables loopback (connecting TX to RX signal) by setting "lpen" bit in the contr
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_disableLoopBack
+### function CF_UART_disableLoopBack
 
 ```cpp
-void EF_UART_disableLoopBack(
+void CF_UART_disableLoopBack(
     uint32_t uart_base
 )
 ```
@@ -196,10 +196,10 @@ disables loopback (connecting TX to RX signal) by clearing "lpen" bit in the con
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_enableGlitchFilter
+### function CF_UART_enableGlitchFilter
 
 ```cpp
-void EF_UART_enableGlitchFilter(
+void CF_UART_enableGlitchFilter(
     uint32_t uart_base
 )
 ```
@@ -211,10 +211,10 @@ enables glitch filter (filter out noise or glitches on the received signal) by s
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_disableGlitchFilter
+### function CF_UART_disableGlitchFilter
 
 ```cpp
-void EF_UART_disableGlitchFilter(
+void CF_UART_disableGlitchFilter(
     uint32_t uart_base
 )
 ```
@@ -226,10 +226,10 @@ disables glitch filter (filter out noise or glitches on the received signal) by 
   * **uart_base** The base memory address of UART registers. 
 
 
-### function EF_UART_setCTRL
+### function CF_UART_setCTRL
 
 ```cpp
-void EF_UART_setCTRL(
+void CF_UART_setCTRL(
     uint32_t uart_base,
     int value
 )
@@ -251,10 +251,10 @@ sets the control register to a certain value where
 * bit 4: UART Glitch Filer on RX enable
 
 
-### function EF_UART_getCTRL
+### function CF_UART_getCTRL
 
 ```cpp
-int EF_UART_getCTRL(
+int CF_UART_getCTRL(
     uint32_t uart_base
 )
 ```
@@ -268,10 +268,10 @@ returns the value of the control register
 
 **Return**: control register value 
 
-### function EF_UART_setDataSize
+### function CF_UART_setDataSize
 
 ```cpp
-void EF_UART_setDataSize(
+void CF_UART_setDataSize(
     uint32_t uart_base,
     int value
 )
@@ -285,10 +285,10 @@ sets the Data Size (Data word length: 5-9 bits ) by setting the "wlen" field in 
   * **value** The value of the required data word length 
 
 
-### function EF_UART_setTwoStopBitsSelect
+### function CF_UART_setTwoStopBitsSelect
 
 ```cpp
-void EF_UART_setTwoStopBitsSelect(
+void CF_UART_setTwoStopBitsSelect(
     uint32_t uart_base,
     bool is_two_bits
 )
@@ -302,10 +302,10 @@ sets the "stp2" bit in configuration register (whether the stop boits are two or
   * **is_two_bits** bool value, if "true", the stop bits are two and if "false", the stop bit is one 
 
 
-### function EF_UART_setParityType
+### function CF_UART_setParityType
 
 ```cpp
-void EF_UART_setParityType(
+void CF_UART_setParityType(
     uint32_t uart_base,
     enum parity_type parity
 )
@@ -319,10 +319,10 @@ sets the "parity" field in configuration register (could be none, odd, even, sti
   * **parity** enum parity_type could be "NONE" , "ODD" , "EVEN" , "STICKY_0" , or "STICKY_1" 
 
 
-### function EF_UART_setTimeoutBits
+### function CF_UART_setTimeoutBits
 
 ```cpp
-void EF_UART_setTimeoutBits(
+void CF_UART_setTimeoutBits(
     uint32_t uart_base,
     int value
 )
@@ -336,10 +336,10 @@ sets the "timeout" field in configuration register which is receiver timeout mea
   * **value** timeout bits value 
 
 
-### function EF_UART_setConfig
+### function CF_UART_setConfig
 
 ```cpp
-void EF_UART_setConfig(
+void CF_UART_setConfig(
     uint32_t uart_base,
     int config
 )
@@ -360,10 +360,10 @@ sets the configuration register to a certain value where
 * bit 8-13: Receiver Timeout measured in number of bits
 
 
-### function EF_UART_getConfig
+### function CF_UART_getConfig
 
 ```cpp
-int EF_UART_getConfig(
+int CF_UART_getConfig(
     uint32_t uart_base
 )
 ```
@@ -377,10 +377,10 @@ returns the value of the configuration register
 
 **Return**: configuration register value 
 
-### function EF_UART_setRxFIFOThreshold
+### function CF_UART_setRxFIFOThreshold
 
 ```cpp
-void EF_UART_setRxFIFOThreshold(
+void CF_UART_setRxFIFOThreshold(
     uint32_t uart_base,
     int threshold
 )
@@ -394,10 +394,10 @@ sets the RX FIFO threshold to a certain value at which "RXA" interrupt will be r
   * **threshold** The value of the required threshold 
 
 
-### function EF_UART_getRxFIFOThreshold
+### function CF_UART_getRxFIFOThreshold
 
 ```cpp
-int EF_UART_getRxFIFOThreshold(
+int CF_UART_getRxFIFOThreshold(
     uint32_t uart_base
 )
 ```
@@ -411,10 +411,10 @@ returns the current value of the RX FIFO threshold
 
 **Return**: RX FIFO threshold register 
 
-### function EF_UART_setTxFIFOThreshold
+### function CF_UART_setTxFIFOThreshold
 
 ```cpp
-void EF_UART_setTxFIFOThreshold(
+void CF_UART_setTxFIFOThreshold(
     uint32_t uart_base,
     int threshold
 )
@@ -428,10 +428,10 @@ sets the TX FIFO threshold to a certain value at which "TXB" interrupt will be r
   * **threshold** The value of the required threshold 
 
 
-### function EF_UART_getTxFIFOThreshold
+### function CF_UART_getTxFIFOThreshold
 
 ```cpp
-int EF_UART_getTxFIFOThreshold(
+int CF_UART_getTxFIFOThreshold(
     uint32_t uart_base
 )
 ```
@@ -445,10 +445,10 @@ returns the current value of the TX FIFO threshold
 
 **Return**: TX FIFO threshold register 
 
-### function EF_UART_setFIFOControl
+### function CF_UART_setFIFOControl
 
 ```cpp
-void EF_UART_setFIFOControl(
+void CF_UART_setFIFOControl(
     uint32_t uart_base,
     int value
 )
@@ -467,10 +467,10 @@ sets the FIFO control register to a certain value where
 * bit 8-11: Receive FIFO Level Threshold
 
 
-### function EF_UART_getFIFOControl
+### function CF_UART_getFIFOControl
 
 ```cpp
-int EF_UART_getFIFOControl(
+int CF_UART_getFIFOControl(
     uint32_t uart_base
 )
 ```
@@ -484,10 +484,10 @@ returns the value of the FIFO control register
 
 **Return**: FIFO control register value 
 
-### function EF_UART_getFIFOStatus
+### function CF_UART_getFIFOStatus
 
 ```cpp
-int EF_UART_getFIFOStatus(
+int CF_UART_getFIFOStatus(
     uint32_t uart_base
 )
 ```
@@ -506,10 +506,10 @@ returns the value of the FIFO status register where
 * bit 8-11: Transmit FIFO Level
 
 
-### function EF_UART_setMatchData
+### function CF_UART_setMatchData
 
 ```cpp
-void EF_UART_setMatchData(
+void CF_UART_setMatchData(
     uint32_t uart_base,
     int matchData
 )
@@ -523,10 +523,10 @@ sets the matchData to a certain value at which "MATCH" interrupt will be raised
   * **matchData** The value of the required match data 
 
 
-### function EF_UART_getMatchData
+### function CF_UART_getMatchData
 
 ```cpp
-int EF_UART_getMatchData(
+int CF_UART_getMatchData(
     uint32_t uart_base
 )
 ```
@@ -540,10 +540,10 @@ returns the value of the match data register
 
 **Return**: match data register value 
 
-### function EF_UART_getTxCount
+### function CF_UART_getTxCount
 
 ```cpp
-int EF_UART_getTxCount(
+int CF_UART_getTxCount(
     uint32_t uart_base
 )
 ```
@@ -557,10 +557,10 @@ returns the current level of the TX FIFO (the number of bytes in the FIFO)
 
 **Return**: TX FIFO level register 
 
-### function EF_UART_getRxCount
+### function CF_UART_getRxCount
 
 ```cpp
-int EF_UART_getRxCount(
+int CF_UART_getRxCount(
     uint32_t uart_base
 )
 ```
@@ -574,10 +574,10 @@ returns the current level of the RX FIFO (the number of bytes in the FIFO)
 
 **Return**: RX FIFO level register 
 
-### function EF_UART_setPrescaler
+### function CF_UART_setPrescaler
 
 ```cpp
-void EF_UART_setPrescaler(
+void CF_UART_setPrescaler(
     uint32_t uart_base,
     int prescaler
 )
@@ -591,10 +591,10 @@ sets the prescaler to a certain value where Baud_rate = Bus_Clock_Freq/((Prescal
   * **prescaler** The value of the required prescaler 
 
 
-### function EF_UART_getPrescaler
+### function CF_UART_getPrescaler
 
 ```cpp
-int EF_UART_getPrescaler(
+int CF_UART_getPrescaler(
     uint32_t uart_base
 )
 ```
@@ -608,10 +608,10 @@ returns the value of the prescaler
 
 **Return**: prescaler register value 
 
-### function EF_UART_getRIS
+### function CF_UART_getRIS
 
 ```cpp
-int EF_UART_getRIS(
+int CF_UART_getRIS(
     uint32_t uart_base
 )
 ```
@@ -638,10 +638,10 @@ returns the value of the Raw Interrupt Status Register
 * bit 9 RTO : Receiver Timeout; no data has been received for the time of a specified number of bits.
 
 
-### function EF_UART_getMIS
+### function CF_UART_getMIS
 
 ```cpp
-int EF_UART_getMIS(
+int CF_UART_getMIS(
     uint32_t uart_base
 )
 ```
@@ -668,10 +668,10 @@ returns the value of the Masked Interrupt Status Register
 * bit 9 RTO : Receiver Timeout; no data has been received for the time of a specified number of bits.
 
 
-### function EF_UART_setIM
+### function CF_UART_setIM
 
 ```cpp
-void EF_UART_setIM(
+void CF_UART_setIM(
     uint32_t uart_base,
     int mask
 )
@@ -698,10 +698,10 @@ sets the value of the Interrupts Masking Register; which enable and disables int
 * bit 9 RTO : Receiver Timeout; no data has been received for the time of a specified number of bits.
 
 
-### function EF_UART_getIM
+### function CF_UART_getIM
 
 ```cpp
-int EF_UART_getIM(
+int CF_UART_getIM(
     uint32_t uart_base
 )
 ```
@@ -728,10 +728,10 @@ returns the value of the Interrupts Masking Register; which enable and disables 
 * bit 9 RTO : Receiver Timeout; no data has been received for the time of a specified number of bits.
 
 
-### function EF_UART_setICR
+### function CF_UART_setICR
 
 ```cpp
-void EF_UART_setICR(
+void CF_UART_setICR(
     uint32_t uart_base,
     int mask
 )
@@ -758,10 +758,10 @@ sets the value of the Interrupts Clear Register; write 1 to clear the flag
 * bit 9 RTO : Receiver Timeout; no data has been received for the time of a specified number of bits.
 
 
-### function EF_UART_writeCharArr
+### function CF_UART_writeCharArr
 
 ```cpp
-void EF_UART_writeCharArr(
+void CF_UART_writeCharArr(
     uint32_t uart_base,
     const char * char_arr
 )
@@ -775,10 +775,10 @@ transmit an array of characters through uart
   * **char_arr** An array of characters to send 
 
 
-### function EF_UART_writeChar
+### function CF_UART_writeChar
 
 ```cpp
-void EF_UART_writeChar(
+void CF_UART_writeChar(
     uint32_t uart_base,
     char data
 )
@@ -792,10 +792,10 @@ transmit a single character through uart
   * **data** The character or byte required to send 
 
 
-### function EF_UART_readChar
+### function CF_UART_readChar
 
 ```cpp
-int EF_UART_readChar(
+int CF_UART_readChar(
     uint32_t uart_base
 )
 ```
@@ -815,10 +815,10 @@ recieve a single character through uart
 
 ```cpp
 
-#ifndef EF_UART_H
-#define EF_UART_H
+#ifndef CF_UART_H
+#define CF_UART_H
 
-#include <EF_UART_regs.h>
+#include <CF_UART_regs.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -826,159 +826,159 @@ enum parity_type {NONE = 0, ODD = 1, EVEN = 2, STICKY_0 = 4, STICKY_1 = 5};
 
 
 
-void EF_UART_enable(uint32_t uart_base);
+void CF_UART_enable(uint32_t uart_base);
 
 
 
-void EF_UART_disable(uint32_t uart_base);
+void CF_UART_disable(uint32_t uart_base);
 
 
 
-void EF_UART_enableRx(uint32_t uart_base);
+void CF_UART_enableRx(uint32_t uart_base);
 
 
 
-void EF_UART_disableRx(uint32_t uart_base);
+void CF_UART_disableRx(uint32_t uart_base);
 
 
 
-void EF_UART_enableTx(uint32_t uart_base);
+void CF_UART_enableTx(uint32_t uart_base);
 
 
 
-void EF_UART_disableTx(uint32_t uart_base);
+void CF_UART_disableTx(uint32_t uart_base);
 
 
 
-void EF_UART_enableLoopBack(uint32_t uart_base);
+void CF_UART_enableLoopBack(uint32_t uart_base);
 
 
 
-void EF_UART_disableLoopBack(uint32_t uart_base);
+void CF_UART_disableLoopBack(uint32_t uart_base);
 
 
 
-void EF_UART_enableGlitchFilter(uint32_t uart_base);
+void CF_UART_enableGlitchFilter(uint32_t uart_base);
 
 
 
-void EF_UART_disableGlitchFilter(uint32_t uart_base);
+void CF_UART_disableGlitchFilter(uint32_t uart_base);
 
 
 
-void EF_UART_setCTRL(uint32_t uart_base, int value);
+void CF_UART_setCTRL(uint32_t uart_base, int value);
 
 
 
-int EF_UART_getCTRL(uint32_t uart_base);
+int CF_UART_getCTRL(uint32_t uart_base);
 
 
 
-void EF_UART_setDataSize(uint32_t uart_base, int value);
+void CF_UART_setDataSize(uint32_t uart_base, int value);
 
 
 
-void EF_UART_setTwoStopBitsSelect(uint32_t uart_base, bool is_two_bits);
+void CF_UART_setTwoStopBitsSelect(uint32_t uart_base, bool is_two_bits);
 
 
 
-void EF_UART_setParityType(uint32_t uart_base, enum parity_type parity);
+void CF_UART_setParityType(uint32_t uart_base, enum parity_type parity);
 
 
 
-void EF_UART_setTimeoutBits(uint32_t uart_base, int value);
+void CF_UART_setTimeoutBits(uint32_t uart_base, int value);
 
 
 
-void EF_UART_setConfig(uint32_t uart_base, int config);
+void CF_UART_setConfig(uint32_t uart_base, int config);
 
 
 
-int EF_UART_getConfig(uint32_t uart_base);
+int CF_UART_getConfig(uint32_t uart_base);
 
 
 
-void EF_UART_setRxFIFOThreshold(uint32_t uart_base, int threshold);
+void CF_UART_setRxFIFOThreshold(uint32_t uart_base, int threshold);
 
 
 
-int EF_UART_getRxFIFOThreshold(uint32_t uart_base);
+int CF_UART_getRxFIFOThreshold(uint32_t uart_base);
 
 
 
-void EF_UART_setTxFIFOThreshold(uint32_t uart_base, int threshold);
+void CF_UART_setTxFIFOThreshold(uint32_t uart_base, int threshold);
 
 
 
-int EF_UART_getTxFIFOThreshold(uint32_t uart_base);
+int CF_UART_getTxFIFOThreshold(uint32_t uart_base);
 
 
 
-void EF_UART_setFIFOControl (uint32_t uart_base, int value);
+void CF_UART_setFIFOControl (uint32_t uart_base, int value);
 
 
 
-int EF_UART_getFIFOControl (uint32_t uart_base);
+int CF_UART_getFIFOControl (uint32_t uart_base);
 
 
 
-int EF_UART_getFIFOStatus(uint32_t uart_base);
+int CF_UART_getFIFOStatus(uint32_t uart_base);
 
 
 
-void EF_UART_setMatchData(uint32_t uart_base, int matchData);
+void CF_UART_setMatchData(uint32_t uart_base, int matchData);
 
 
 
-int EF_UART_getMatchData(uint32_t uart_base);
+int CF_UART_getMatchData(uint32_t uart_base);
 
 
 
-int EF_UART_getTxCount(uint32_t uart_base);
+int CF_UART_getTxCount(uint32_t uart_base);
 
 
 
-int EF_UART_getRxCount(uint32_t uart_base);
+int CF_UART_getRxCount(uint32_t uart_base);
 
 
 
-void EF_UART_setPrescaler(uint32_t uart_base, int prescaler);
+void CF_UART_setPrescaler(uint32_t uart_base, int prescaler);
 
 
 
-int EF_UART_getPrescaler(uint32_t uart_base);
+int CF_UART_getPrescaler(uint32_t uart_base);
 
 
 
-int EF_UART_getRIS(uint32_t uart_base);
+int CF_UART_getRIS(uint32_t uart_base);
 
 
 
-int EF_UART_getMIS(uint32_t uart_base);
+int CF_UART_getMIS(uint32_t uart_base);
 
 
 
-void EF_UART_setIM(uint32_t uart_base, int mask);
+void CF_UART_setIM(uint32_t uart_base, int mask);
 
 
 
-int EF_UART_getIM(uint32_t uart_base);
+int CF_UART_getIM(uint32_t uart_base);
 
 
 
-void EF_UART_setICR(uint32_t uart_base, int mask);
+void CF_UART_setICR(uint32_t uart_base, int mask);
 
 
 
-void EF_UART_writeCharArr(uint32_t uart_base, const char *char_arr);
+void CF_UART_writeCharArr(uint32_t uart_base, const char *char_arr);
 
 
 
-void EF_UART_writeChar(uint32_t uart_base, char data);
+void CF_UART_writeChar(uint32_t uart_base, char data);
 
 
 
-int EF_UART_readChar(uint32_t uart_base);
+int CF_UART_readChar(uint32_t uart_base);
 
 #endif
 ```

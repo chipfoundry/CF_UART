@@ -7,9 +7,9 @@ from uvm.base.uvm_printer import UVMTablePrinter
 from uvm.base.sv import sv
 from uvm.base.uvm_object_globals import UVM_FULL, UVM_LOW, UVM_ERROR
 from uvm.base.uvm_globals import run_test
-from EF_UVM.top_env import top_env
+from CF_UVM.top_env import top_env
 from uart_interface.uart_if import uart_if
-from EF_UVM.bus_env.bus_interface.bus_if import (
+from CF_UVM.bus_env.bus_interface.bus_if import (
     bus_apb_if,
     bus_irq_if,
     bus_ahb_if,
@@ -17,11 +17,11 @@ from EF_UVM.bus_env.bus_interface.bus_if import (
 )
 from cocotb_coverage.coverage import coverage_db
 from cocotb.triggers import Event, First
-from EF_UVM.bus_env.bus_regs import bus_regs
+from CF_UVM.bus_env.bus_regs import bus_regs
 from uvm.base.uvm_report_server import UVMReportServer
 
 # seq
-from EF_UVM.bus_env.bus_seq_lib.write_read_regs import write_read_regs
+from CF_UVM.bus_env.bus_seq_lib.write_read_regs import write_read_regs
 from uart_seq_lib.uart_tx_seq import uart_tx_seq
 from uart_seq_lib.uart_config import uart_config
 from uart_seq_lib.uart_rx_read import uart_rx_read
@@ -39,28 +39,28 @@ from uart_seq_lib.uart_loopback_seq import uart_loopback_seq
 from uvm.base import UVMRoot
 
 # override classes
-from EF_UVM.ip_env.ip_agent.ip_driver import ip_driver
+from CF_UVM.ip_env.ip_agent.ip_driver import ip_driver
 from uart_agent.uart_driver import uart_driver
-from EF_UVM.ip_env.ip_agent.ip_monitor import ip_monitor
+from CF_UVM.ip_env.ip_agent.ip_monitor import ip_monitor
 from uart_agent.uart_monitor import uart_monitor
-from EF_UVM.ref_model.ref_model import ref_model
+from CF_UVM.ref_model.ref_model import ref_model
 from ref_model.ref_model import UART_VIP
-from EF_UVM.scoreboard import scoreboard
+from CF_UVM.scoreboard import scoreboard
 from uart_scoreboard import uart_scoreboard
-from EF_UVM.ip_env.ip_coverage.ip_coverage import ip_coverage
+from CF_UVM.ip_env.ip_coverage.ip_coverage import ip_coverage
 from uart_coverage.uart_coverage import uart_coverage
-from EF_UVM.ip_env.ip_logger.ip_logger import ip_logger
+from CF_UVM.ip_env.ip_logger.ip_logger import ip_logger
 from uart_logger.uart_logger import uart_logger
 
 #
-from EF_UVM.bus_env.bus_agent.bus_ahb_driver import bus_ahb_driver
-from EF_UVM.bus_env.bus_agent.bus_apb_driver import bus_apb_driver
-from EF_UVM.bus_env.bus_agent.bus_wb_driver import bus_wb_driver
-from EF_UVM.bus_env.bus_agent.bus_ahb_monitor import bus_ahb_monitor
-from EF_UVM.bus_env.bus_agent.bus_apb_monitor import bus_apb_monitor
-from EF_UVM.bus_env.bus_agent.bus_wb_monitor import bus_wb_monitor
+from CF_UVM.bus_env.bus_agent.bus_ahb_driver import bus_ahb_driver
+from CF_UVM.bus_env.bus_agent.bus_apb_driver import bus_apb_driver
+from CF_UVM.bus_env.bus_agent.bus_wb_driver import bus_wb_driver
+from CF_UVM.bus_env.bus_agent.bus_ahb_monitor import bus_ahb_monitor
+from CF_UVM.bus_env.bus_agent.bus_apb_monitor import bus_apb_monitor
+from CF_UVM.bus_env.bus_agent.bus_wb_monitor import bus_wb_monitor
 
-from EF_UVM.base_test import base_test
+from CF_UVM.base_test import base_test
 
 
 @cocotb.test()

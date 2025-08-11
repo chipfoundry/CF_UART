@@ -4,7 +4,7 @@ MODULE   ?= top_module
 AHB_FILES ?= $(PWD)/../../hdl/rtl/bus_wrappers/CF_UART_AHBL.v
 APB_FILES ?= $(PWD)/../../hdl/rtl/bus_wrappers/CF_UART_APB.v
 WB_FILES ?= $(PWD)/../../hdl/rtl/bus_wrappers/CF_UART_WB.v
-HDL_FILES ?= $(PWD)/../../ip/EF_IP_UTIL/hdl/ef_util_lib.v  $(PWD)/../../hdl/rtl/CF_UART.v 
+HDL_FILES ?= $(PWD)/../../ip/CF_IP_UTIL/hdl/ef_util_lib.v  $(PWD)/../../hdl/rtl/CF_UART.v 
 VERILOG_SOURCES ?=  $(PWD)/top.v $(AHB_FILES) $(APB_FILES) $(WB_FILES) $(HDL_FILES)
 RTL_MACROS += ""
 BUS_TYPE ?= APB
@@ -46,13 +46,13 @@ SIM_TAG ?= default_tag
 # Define SIM_PATH variable
 SIM_PATH := $(PWD)/sim/$(SIM_TAG)
 
-# Check and clone EF_UVM repository at the beginning of the Makefile execution
+# Check and clone CF_UVM repository at the beginning of the Makefile execution
 
-clone_ef_uvm := $(shell if [ ! -d "EF_UVM" ]; then \
-	echo "Cloning the EF_UVM repository..."; \
-	git clone https://github.com/efabless/EF_UVM.git; \
+clone_ef_uvm := $(shell if [ ! -d "CF_UVM" ]; then \
+	echo "Cloning the CF_UVM repository..."; \
+	git clone https://github.com/efabless/CF_UVM.git; \
 fi;)
 
 
 
-include EF_UVM/Makefile.test
+include CF_UVM/Makefile.test

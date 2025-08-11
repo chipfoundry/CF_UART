@@ -232,7 +232,7 @@ The following are the bit definitions for the interrupt registers:
 |8|OR|1|Overrun; data has been received but the RX FIFO is full.|
 |9|RTO|1|Receiver Timeout; no data has been received for the time of a specified number of bits.|
 ### Clock Gating
-The IP includes a clock gating feature that allows selective activation and deactivation of the clock using the ``GCLK`` register. This capability is implemented through the ``ef_util_gating_cell`` module, which is part of the common modules library, [ef_util_lib.v](https://github.com/efabless/EF_IP_UTIL/blob/main/hdl/ef_util_lib.v). By default, the clock gating is disabled. To enable behavioral implmentation clock gating, only for simulation purposes, you should define the ``CLKG_GENERIC`` macro. Alternatively, define the ``CLKG_SKY130_HD`` macro if you wish to use the SKY130 HD library clock gating cell, ``sky130_fd_sc_hd__dlclkp_4``.
+The IP includes a clock gating feature that allows selective activation and deactivation of the clock using the ``GCLK`` register. This capability is implemented through the ``cf_util_gating_cell`` module, which is part of the common modules library, [cf_util_lib.v](https://github.com/efabless/CF_IP_UTIL/blob/main/hdl/cf_util_lib.v). By default, the clock gating is disabled. To enable behavioral implmentation clock gating, only for simulation purposes, you should define the ``CLKG_GENERIC`` macro. Alternatively, define the ``CLKG_SKY130_HD`` macro if you wish to use the SKY130 HD library clock gating cell, ``sky130_fd_sc_hd__dlclkp_4``.
 
 **Note:** If you choose the [OpenLane2](https://github.com/efabless/openlane2) flow for implementation and would like to enable the clock gating feature, you need to add ``CLKG_SKY130_HD`` macro to the ``VERILOG_DEFINES`` configuration variable. Update OpenLane2 YAML configuration file as follows: 
 ```
@@ -247,10 +247,10 @@ You can install the IP either by cloning this repository or by using [IPM](https
 ### 1. Using [IPM](https://github.com/efabless/IPM):
 - [Optional] If you do not have IPM installed, follow the installation guide [here](https://github.com/efabless/IPM/blob/main/README.md)
 - After installing IPM, execute the following command ```ipm install CF_UART```.
-> **Note:** This method is recommended as it automatically installs [EF_IP_UTIL](https://github.com/efabless/EF_IP_UTIL.git) as a dependency.
+> **Note:** This method is recommended as it automatically installs [CF_IP_UTIL](https://github.com/efabless/CF_IP_UTIL.git) as a dependency.
 ### 2. Cloning this repo: 
-- Clone [EF_IP_UTIL](https://github.com/efabless/EF_IP_UTIL.git) repository, which includes the required modules from the common modules library, [ef_util_lib.v](https://github.com/efabless/EF_IP_UTIL/blob/main/hdl/ef_util_lib.v).
-```git clone https://github.com/efabless/EF_IP_UTIL.git```
+- Clone [CF_IP_UTIL](https://github.com/efabless/CF_IP_UTIL.git) repository, which includes the required modules from the common modules library, [cf_util_lib.v](https://github.com/efabless/CF_IP_UTIL/blob/main/hdl/cf_util_lib.v).
+```git clone https://github.com/efabless/CF_IP_UTIL.git```
 - Clone the IP repository
 ```git clone https://github.com/chipfoundry/CF_UART.git```
 

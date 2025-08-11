@@ -2,7 +2,7 @@ from uvm.macros.uvm_object_defines import uvm_object_utils
 from uvm.macros.uvm_sequence_defines import uvm_do_with
 from uvm.base import sv, UVM_HIGH, UVM_LOW
 import random
-from EF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
+from CF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
 from uvm.macros.uvm_sequence_defines import uvm_do_with, uvm_do
 from uart_seq_lib.uart_config import uart_config
 from uvm.seq import UVMSequence

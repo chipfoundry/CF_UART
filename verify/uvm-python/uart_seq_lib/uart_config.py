@@ -3,8 +3,8 @@ from uvm.macros.uvm_object_defines import uvm_object_utils
 from uvm.macros.uvm_message_defines import uvm_info, uvm_fatal
 from uvm.macros.uvm_sequence_defines import uvm_do_with, uvm_do
 from uvm.base import sv, UVM_HIGH, UVM_LOW
-from EF_UVM.bus_env.bus_item import bus_item
-from EF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
+from CF_UVM.bus_env.bus_item import bus_item
+from CF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
 import random
 
 class uart_config(bus_seq_base):
