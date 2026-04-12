@@ -16,10 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install IP dependencies
-        run: |
-          git clone --depth 1 https://github.com/efabless/CF_IP_UTIL.git ip/CF_IP_UTIL
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -33,7 +29,11 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
+          pip install cf-ipm
           pip install -r verify/pyuvm/requirements.txt
+
+      - name: Install IP dependencies
+        run: ipm install-dep
 
       - name: Run tests (${{ matrix.sim }})
         working-directory: verify/pyuvm
