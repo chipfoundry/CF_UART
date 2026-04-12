@@ -59,3 +59,11 @@ util
 tmp
 tmp_versions
 gl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Verification sim artifacts
+verify/pyuvm/sim/

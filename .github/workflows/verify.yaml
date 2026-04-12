@@ -1,0 +1,224 @@
+name: CF_UART Verification
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sim: [icarus, verilator]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install simulators
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog verilator lcov
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r verify/pyuvm/requirements.txt
+
+      - name: Run tests (${{ matrix.sim }})
+        working-directory: verify/pyuvm
+        run: python test_runner.py
+        env:
+          SIM: ${{ matrix.sim }}
+
+      - name: Collect Verilator RTL coverage
+        if: matrix.sim == 'verilator'
+        working-directory: verify/pyuvm
+        run: |
+          find sim/ -name "coverage.dat" -exec verilator_coverage \
+            --write-info sim/verilator/merged/merged.info {} + || true
+          genhtml sim/verilator/merged/merged.info \
+            -o sim/verilator/merged/coverage_html/ \
+            --no-function-coverage || true
+
+      - name: Generate reports
+        if: always()
+        working-directory: verify/pyuvm
+        run: |
+          RESULTS_DIR="sim/${{ matrix.sim }}/merged"
+          EXTRA=""
+          if [ "${{ matrix.sim }}" = "verilator" ]; then
+            EXTRA="--include-rtl-coverage"
+          fi
+          cf-verify report \
+            --results-dir "$RESULTS_DIR" \
+            --output-html report.html \
+            --output-md RESULTS.md \
+            $EXTRA
+
+      - name: Write job summary
+        if: always()
+        working-directory: verify/pyuvm
+        run: |
+          RESULTS_DIR="sim/${{ matrix.sim }}/merged"
+          echo "## CF_UART Verification — ${{ matrix.sim }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "$RESULTS_DIR/RESULTS.md" ]; then
+            cat "$RESULTS_DIR/RESULTS.md" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No results generated." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.sim }}
+          path: verify/pyuvm/sim/
+
+  update-badge:
+    if: github.ref == 'refs/heads/main'
+    needs: [verify]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: results-verilator
+          path: sim-results
+
+      - name: Extract coverage and update badge data
+        run: |
+          RESULTS_DIR="sim-results/verilator/merged"
+
+          # Parse coverage from JSON
+          if [ -f "$RESULTS_DIR/coverage_report.json" ]; then
+            FUNC_COV=$(python3 -c "
+          import json
+          d = json.load(open('$RESULTS_DIR/coverage_report.json'))
+          print(round(d.get('overall_pct', 0), 1))
+          ")
+          else
+            FUNC_COV="0"
+          fi
+
+          # Parse test results
+          if [ -f "$RESULTS_DIR/results.json" ]; then
+            TESTS_INFO=$(python3 -c "
+          import json
+          r = json.load(open('$RESULTS_DIR/results.json'))
+          passed = sum(1 for t in r if t['passed'])
+          total = len(r)
+          print(f'{passed}/{total}')
+          ")
+          else
+            TESTS_INFO="0/0"
+          fi
+
+          # Parse RTL coverage from LCOV
+          RTL_LINE="N/A"
+          RTL_BRANCH="N/A"
+          if [ -f "$RESULTS_DIR/merged.info" ]; then
+            RTL_INFO=$(python3 -c "
+          import sys
+          sys.path.insert(0, '.')
+          da_total = da_hit = brf = brh = 0
+          for line in open('$RESULTS_DIR/merged.info'):
+            line = line.strip()
+            if line.startswith('DA:'):
+              parts = line[3:].split(',')
+              da_total += 1
+              if int(parts[1]) > 0: da_hit += 1
+            elif line.startswith('BRF:'): brf += int(line[4:])
+            elif line.startswith('BRH:'): brh += int(line[4:])
+          lp = round(da_hit/da_total*100,1) if da_total else 0
+          bp = round(brh/brf*100,1) if brf else 0
+          print(f'{lp}|{bp}')
+          ")
+            RTL_LINE=$(echo "$RTL_INFO" | cut -d'|' -f1)
+            RTL_BRANCH=$(echo "$RTL_INFO" | cut -d'|' -f2)
+          fi
+
+          echo "FUNC_COV=$FUNC_COV" >> $GITHUB_ENV
+          echo "TESTS_INFO=$TESTS_INFO" >> $GITHUB_ENV
+          echo "RTL_LINE=$RTL_LINE" >> $GITHUB_ENV
+          echo "RTL_BRANCH=$RTL_BRANCH" >> $GITHUB_ENV
+
+      - name: Create verification summary badge JSON
+        run: |
+          mkdir -p .github/badges
+          cat > .github/badges/verification.json << ENDJSON
+          {
+            "schemaVersion": 1,
+            "label": "tests",
+            "message": "${{ env.TESTS_INFO }} passed",
+            "color": "brightgreen"
+          }
+          ENDJSON
+          cat > .github/badges/func-coverage.json << ENDJSON
+          {
+            "schemaVersion": 1,
+            "label": "functional coverage",
+            "message": "${{ env.FUNC_COV }}%",
+            "color": "brightgreen"
+          }
+          ENDJSON
+          cat > .github/badges/line-coverage.json << ENDJSON
+          {
+            "schemaVersion": 1,
+            "label": "line coverage",
+            "message": "${{ env.RTL_LINE }}%",
+            "color": "brightgreen"
+          }
+          ENDJSON
+          cat > .github/badges/branch-coverage.json << ENDJSON
+          {
+            "schemaVersion": 1,
+            "label": "branch coverage",
+            "message": "${{ env.RTL_BRANCH }}%",
+            "color": "yellow"
+          }
+          ENDJSON
+
+      - name: Deploy badges + reports to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          destination_dir: verification
+          keep_files: true
+
+  comment-pr:
+    if: github.event_name == 'pull_request'
+    needs: [verify]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: results-verilator
+          path: results
+
+      - name: Post results to PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const mdPath = 'results/verilator/merged/RESULTS.md';
+            if (fs.existsSync(mdPath)) {
+              const body = fs.readFileSync(mdPath, 'utf8');
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body,
+              });
+            }

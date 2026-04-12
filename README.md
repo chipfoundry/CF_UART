@@ -1,5 +1,11 @@
 # CF_UART
 
+[![Verification](https://github.com/chipfoundry/CF_UART/actions/workflows/verify.yaml/badge.svg)](https://github.com/chipfoundry/CF_UART/actions/workflows/verify.yaml)
+![Tests](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/verification/.github/badges/verification.json)
+![Functional Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/verification/.github/badges/func-coverage.json)
+![Line Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/verification/.github/badges/line-coverage.json)
+![Branch Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/verification/.github/badges/branch-coverage.json)
+
 UART, or universal asynchronous receiver-transmitter, is one of the most used device-to-device communication protocols. A UART enables two devices to exchange data serially without sharing the clock in a frame oriented way. The frame consists of a start bit, a number of data bits (typically one byte), a parity bit (optional) and 1-2 stop bits.
 CF_UART is a Soft IP with the following features:
 - A configurable frame format
@@ -239,6 +245,53 @@ The IP includes a clock gating feature that allows selective activation and deac
 VERILOG_DEFINES:
 - CLKG_SKY130_HD
 ```
+## Verification
+
+CF_UART has a comprehensive pyUVM verification environment with 15 tests running across 3 bus types (APB, AHB-Lite, Wishbone) for a total of 45 test runs.
+
+### Coverage Summary
+
+| Metric | Coverage |
+|--------|----------|
+| **Functional Coverage** | 100% (386/386 bins) |
+| **RTL Line Coverage** | 98.6% |
+| **RTL Branch Coverage** | 68.7% |
+
+### Test Suite
+
+| Test | Description |
+|------|-------------|
+| WriteReadRegsTest | Write/read all accessible registers |
+| TX_StressTest | TX stress with many characters |
+| RX_StressTest | RX stress with many characters |
+| LoopbackTest | Loopback TX to RX |
+| PrescalarStressTest | Baud rate sweep across prescaler values |
+| LengthParityTXStressTest | All word lengths x parity types (TX) |
+| LengthParityRXStressTest | All word lengths x parity types (RX) |
+| InterruptTest | All 10 interrupt sources fire and clear |
+| FIFOEdgeTest | FIFO full, empty, threshold, overrun |
+| TimeoutTest | RX timeout interrupt |
+| MatchDataTest | Data match interrupt |
+| GlitchFilterTest | Glitch filtering on RX line |
+| FrameErrorTest | Frame error detection |
+| ParityErrorTest | Parity error detection |
+| CoverageClosureTest | Systematic coverage bin sweeper |
+
+### Running Verification Locally
+
+```bash
+cd verify/pyuvm
+pip install -r requirements.txt
+
+# Fast run (Icarus Verilog — functional coverage only)
+SIM=icarus python test_runner.py
+
+# Full run (Verilator — adds RTL line + branch coverage)
+SIM=verilator python test_runner.py
+```
+
+Reports are generated at `verify/pyuvm/sim/<simulator>/merged/report.html`.
+
 ## Firmware Drivers:
 Firmware drivers for CF_UART can be found in the [Drivers](https://github.com/efabless/EFIS/tree/main/Drivers) directory in the [EFIS](https://github.com/efabless/EFIS) (Efabless Firmware Interface Standard) repo. CF_UART driver documentation  is available [here](https://github.com/efabless/EFIS/blob/main/Drivers/Docs/CF_UART/README.md).
 You can also find an example C application using the CF_UART drivers [here](https://github.com/efabless/EFIS/tree/main/Drivers/Docs/CF_UART/example).
