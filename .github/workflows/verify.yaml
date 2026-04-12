@@ -15,8 +15,10 @@ jobs:
         sim: [icarus, verilator]
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
+
+      - name: Install IP dependencies
+        run: |
+          git clone --depth 1 https://github.com/efabless/CF_IP_UTIL.git ip/CF_IP_UTIL
 
       - name: Set up Python
         uses: actions/setup-python@v5
