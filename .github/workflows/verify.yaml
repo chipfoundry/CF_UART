@@ -24,7 +24,7 @@ jobs:
       - name: Install simulators
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog lcov autoconf flex bison help2man
+          sudo apt-get install -y iverilog lcov autoconf flex bison libfl-dev help2man
           if [ "${{ matrix.sim }}" = "verilator" ]; then
             cd /tmp
             curl -sL https://github.com/verilator/verilator/archive/refs/tags/v5.030.tar.gz | tar xz
