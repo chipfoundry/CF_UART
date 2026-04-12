@@ -24,7 +24,13 @@ jobs:
       - name: Install simulators
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog verilator lcov
+          sudo apt-get install -y iverilog lcov autoconf flex bison help2man
+          if [ "${{ matrix.sim }}" = "verilator" ]; then
+            cd /tmp
+            curl -sL https://github.com/verilator/verilator/archive/refs/tags/v5.030.tar.gz | tar xz
+            cd verilator-5.030
+            autoconf && ./configure --prefix=/usr/local && make -j$(nproc) && sudo make install
+          fi
 
       - name: Install Python dependencies
         run: |
