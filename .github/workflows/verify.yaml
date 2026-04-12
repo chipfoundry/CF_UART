@@ -39,42 +39,17 @@ jobs:
         env:
           SIM: ${{ matrix.sim }}
 
-      - name: Collect Verilator RTL coverage
-        if: matrix.sim == 'verilator'
-        working-directory: verify/pyuvm
-        run: |
-          find sim/ -name "coverage.dat" -exec verilator_coverage \
-            --write-info sim/verilator/merged/merged.info {} + || true
-          genhtml sim/verilator/merged/merged.info \
-            -o sim/verilator/merged/coverage_html/ \
-            --no-function-coverage || true
-
-      - name: Generate reports
-        if: always()
-        working-directory: verify/pyuvm
-        run: |
-          RESULTS_DIR="sim/${{ matrix.sim }}/merged"
-          EXTRA=""
-          if [ "${{ matrix.sim }}" = "verilator" ]; then
-            EXTRA="--include-rtl-coverage"
-          fi
-          cf-verify report \
-            --results-dir "$RESULTS_DIR" \
-            --output-html report.html \
-            --output-md RESULTS.md \
-            $EXTRA
-
       - name: Write job summary
         if: always()
         working-directory: verify/pyuvm
         run: |
-          RESULTS_DIR="sim/${{ matrix.sim }}/merged"
+          RESULTS="sim/${{ matrix.sim }}/merged/RESULTS.md"
           echo "## CF_UART Verification — ${{ matrix.sim }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -f "$RESULTS_DIR/RESULTS.md" ]; then
-            cat "$RESULTS_DIR/RESULTS.md" >> $GITHUB_STEP_SUMMARY
+          if [ -f "$RESULTS" ]; then
+            cat "$RESULTS" >> $GITHUB_STEP_SUMMARY
           else
-            echo "No results generated." >> $GITHUB_STEP_SUMMARY
+            echo "> Tests did not produce a report." >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Upload results
@@ -85,7 +60,7 @@ jobs:
           path: verify/pyuvm/sim/
 
   update-badge:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && !failure() && !cancelled()
     needs: [verify]
     runs-on: ubuntu-latest
     steps:
@@ -96,56 +71,45 @@ jobs:
           name: results-verilator
           path: sim-results
 
-      - name: Extract coverage and update badge data
+      - name: Extract coverage metrics
         run: |
-          RESULTS_DIR="sim-results/verilator/merged"
+          DIR="sim-results/verilator/merged"
 
-          # Parse coverage from JSON
-          if [ -f "$RESULTS_DIR/coverage_report.json" ]; then
+          FUNC_COV="0"
+          if [ -f "$DIR/coverage_report.json" ]; then
             FUNC_COV=$(python3 -c "
           import json
-          d = json.load(open('$RESULTS_DIR/coverage_report.json'))
+          d = json.load(open('$DIR/coverage_report.json'))
           print(round(d.get('overall_pct', 0), 1))
           ")
-          else
-            FUNC_COV="0"
           fi
 
-          # Parse test results
-          if [ -f "$RESULTS_DIR/results.json" ]; then
+          TESTS_INFO="0/0"
+          if [ -f "$DIR/results.json" ]; then
             TESTS_INFO=$(python3 -c "
           import json
-          r = json.load(open('$RESULTS_DIR/results.json'))
-          passed = sum(1 for t in r if t['passed'])
-          total = len(r)
-          print(f'{passed}/{total}')
+          r = json.load(open('$DIR/results.json'))
+          p = sum(1 for t in r if t['passed'])
+          print(f'{p}/{len(r)}')
           ")
-          else
-            TESTS_INFO="0/0"
           fi
 
-          # Parse RTL coverage from LCOV
-          RTL_LINE="N/A"
-          RTL_BRANCH="N/A"
-          if [ -f "$RESULTS_DIR/merged.info" ]; then
-            RTL_INFO=$(python3 -c "
-          import sys
-          sys.path.insert(0, '.')
-          da_total = da_hit = brf = brh = 0
-          for line in open('$RESULTS_DIR/merged.info'):
-            line = line.strip()
-            if line.startswith('DA:'):
-              parts = line[3:].split(',')
-              da_total += 1
-              if int(parts[1]) > 0: da_hit += 1
-            elif line.startswith('BRF:'): brf += int(line[4:])
-            elif line.startswith('BRH:'): brh += int(line[4:])
-          lp = round(da_hit/da_total*100,1) if da_total else 0
-          bp = round(brh/brf*100,1) if brf else 0
-          print(f'{lp}|{bp}')
+          RTL_LINE="N/A"; RTL_BRANCH="N/A"
+          if [ -f "$DIR/merged.info" ]; then
+            eval $(python3 -c "
+          dt=dh=brf=brh=0
+          for l in open('$DIR/merged.info'):
+            l=l.strip()
+            if l.startswith('DA:'):
+              dt+=1
+              if int(l[3:].split(',')[1])>0: dh+=1
+            elif l.startswith('BRF:'): brf+=int(l[4:])
+            elif l.startswith('BRH:'): brh+=int(l[4:])
+          lp=round(dh/dt*100,1) if dt else 0
+          bp=round(brh/brf*100,1) if brf else 0
+          print(f'RTL_LINE={lp}')
+          print(f'RTL_BRANCH={bp}')
           ")
-            RTL_LINE=$(echo "$RTL_INFO" | cut -d'|' -f1)
-            RTL_BRANCH=$(echo "$RTL_INFO" | cut -d'|' -f2)
           fi
 
           echo "FUNC_COV=$FUNC_COV" >> $GITHUB_ENV
@@ -153,43 +117,24 @@ jobs:
           echo "RTL_LINE=$RTL_LINE" >> $GITHUB_ENV
           echo "RTL_BRANCH=$RTL_BRANCH" >> $GITHUB_ENV
 
-      - name: Create verification summary badge JSON
+      - name: Generate badge JSON files
         run: |
           mkdir -p .github/badges
-          cat > .github/badges/verification.json << ENDJSON
-          {
-            "schemaVersion": 1,
-            "label": "tests",
-            "message": "${{ env.TESTS_INFO }} passed",
-            "color": "brightgreen"
+          python3 -c "
+          import json, os
+          badges = {
+            'verification': {'label':'tests','message':'${{ env.TESTS_INFO }} passed','color':'brightgreen'},
+            'func-coverage': {'label':'functional coverage','message':'${{ env.FUNC_COV }}%','color':'brightgreen'},
+            'line-coverage': {'label':'line coverage','message':'${{ env.RTL_LINE }}%','color':'brightgreen'},
+            'branch-coverage': {'label':'branch coverage','message':'${{ env.RTL_BRANCH }}%','color':'yellow'},
           }
-          ENDJSON
-          cat > .github/badges/func-coverage.json << ENDJSON
-          {
-            "schemaVersion": 1,
-            "label": "functional coverage",
-            "message": "${{ env.FUNC_COV }}%",
-            "color": "brightgreen"
-          }
-          ENDJSON
-          cat > .github/badges/line-coverage.json << ENDJSON
-          {
-            "schemaVersion": 1,
-            "label": "line coverage",
-            "message": "${{ env.RTL_LINE }}%",
-            "color": "brightgreen"
-          }
-          ENDJSON
-          cat > .github/badges/branch-coverage.json << ENDJSON
-          {
-            "schemaVersion": 1,
-            "label": "branch coverage",
-            "message": "${{ env.RTL_BRANCH }}%",
-            "color": "yellow"
-          }
-          ENDJSON
+          for name, b in badges.items():
+            b['schemaVersion'] = 1
+            with open(f'.github/badges/{name}.json','w') as f:
+              json.dump(b, f, indent=2)
+          "
 
-      - name: Deploy badges + reports to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

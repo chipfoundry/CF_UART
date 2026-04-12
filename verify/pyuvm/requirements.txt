@@ -1,4 +1,4 @@
-cf-verify>=0.1.0
+cf-verify @ git+https://github.com/chipfoundry/cf_verify.git@main
 pyuvm>=4.0.1
 cocotb>=2.0
 cocotb-coverage>=2.0
