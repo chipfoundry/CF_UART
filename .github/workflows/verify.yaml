@@ -21,15 +21,28 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Cache Verilator
+        if: matrix.sim == 'verilator'
+        id: cache-verilator
+        uses: actions/cache@v4
+        with:
+          path: /opt/verilator
+          key: verilator-v5.030-${{ runner.os }}
+
       - name: Install simulators
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog lcov autoconf flex bison libfl-dev help2man
+          sudo apt-get install -y iverilog lcov
           if [ "${{ matrix.sim }}" = "verilator" ]; then
-            cd /tmp
-            curl -sL https://github.com/verilator/verilator/archive/refs/tags/v5.030.tar.gz | tar xz
-            cd verilator-5.030
-            autoconf && ./configure --prefix=/usr/local && make -j$(nproc) && sudo make install
+            if [ "${{ steps.cache-verilator.outputs.cache-hit }}" != "true" ]; then
+              sudo apt-get install -y autoconf flex bison libfl-dev help2man
+              cd /tmp
+              curl -sL https://github.com/verilator/verilator/archive/refs/tags/v5.030.tar.gz | tar xz
+              cd verilator-5.030
+              autoconf && ./configure --prefix=/opt/verilator && make -j$(nproc) && sudo make install
+            fi
+            echo "/opt/verilator/bin" >> $GITHUB_PATH
+            echo "VERILATOR_ROOT=/opt/verilator/share/verilator" >> $GITHUB_ENV
           fi
 
       - name: Install Python dependencies
