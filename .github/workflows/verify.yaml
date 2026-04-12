@@ -71,6 +71,8 @@ jobs:
     if: github.ref == 'refs/heads/main' && !failure() && !cancelled()
     needs: [verify]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -146,8 +148,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          destination_dir: verification
+          publish_dir: .github/badges
+          destination_dir: badges
           keep_files: true
 
   comment-pr:
