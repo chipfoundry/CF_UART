@@ -1,3 +1,5 @@
+# Standalone IP repo: this file belongs at the repository root (verify/pyuvm relative to root).
+# chipfoundry/ip_unit monorepo: CI runs from /.github/workflows/verify-all.yaml instead.
 name: CF_UART Verification
 
 on:
