@@ -47,7 +47,15 @@ class uart_loopback_seq(uvm_sequence):
                 sent_data.append(data)
                 await write_reg_seq("tx_wr", addr["TXDATA"], data).start(self.sequencer)
 
-            await ClockCycles(dut.CLK, bit_cyc * 12 * n_send + 200)
+            if "RX_FIFO_LEVEL" in addr:
+                for _ in range(500_000):
+                    await ClockCycles(dut.CLK, 2)
+                    rdl = read_reg_seq("rxlvl", addr["RX_FIFO_LEVEL"])
+                    await rdl.start(self.sequencer)
+                    if int(rdl.result) & 0xF >= n_send:
+                        break
+            else:
+                await ClockCycles(dut.CLK, bit_cyc * 12 * n_send + 2000)
 
             for expected in sent_data:
                 rd = read_reg_seq("rx_rd", addr["RXDATA"])

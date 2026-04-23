@@ -40,15 +40,19 @@ class uart_match_seq(uvm_sequence):
         await write_reg_seq("tx_match", addr["TXDATA"], match_char).start(self.sequencer)
 
         # Wait and check RIS for match flag
-        import cocotb
         from cocotb.triggers import ClockCycles
         dut = ConfigDB().get(None, "", "DUT")
         bit_n_cyc = (2 + 1) * 8
         frame_cyc = bit_n_cyc * (1 + 9 + 1 + 1) * 3
-        await ClockCycles(dut.CLK, frame_cyc)
-
+        for _ in range(5000):
+            await ClockCycles(dut.CLK, max(1, frame_cyc // 100))
+            ris = await read_reg("RIS")
+            if (ris >> match_b) & 1:
+                break
+        else:
+            await ClockCycles(dut.CLK, frame_cyc * 2)
         ris = await read_reg("RIS")
-        assert ((ris >> match_b) & 1) == 1, f"MATCH flag not set in RIS (0x{ris:03x})"
+        assert int(ris) & (1 << match_b), f"MATCH flag not set in RIS (0x{int(ris):03x})"
 
         # Read back RX data
         rx0 = await read_reg("RXDATA")
