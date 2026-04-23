@@ -4,6 +4,7 @@ import cocotb
 from cocotb.triggers import ClockCycles
 from pyuvm import uvm_sequence, ConfigDB
 
+from cf_verify.bus_env.bus_seq_lib import reset_seq
 from seq_lib.uart_config import uart_config
 
 
@@ -11,6 +12,7 @@ class uart_parity_error_seq(uvm_sequence):
     """Drives the RX line directly to inject parity errors."""
 
     async def body(self):
+        await reset_seq("rst").start(self.sequencer)
         regs = ConfigDB().get(None, "", "bus_regs")
         addr = regs.reg_name_to_address
         dut = ConfigDB().get(None, "", "DUT")
@@ -50,4 +52,7 @@ class uart_parity_error_seq(uvm_sequence):
 
         # Check parity error flag
         from cf_verify.bus_env.bus_seq_lib import read_reg_seq
-        await read_reg_seq("ris_pe", addr["RIS"]).start(self.sequencer)
+        rd = read_reg_seq("ris_pe", addr["RIS"])
+        await rd.start(self.sequencer)
+        ris = rd.result
+        assert ((ris >> 7) & 1) == 1, f"Parity error flag not set in RIS (0x{ris:03x})"

@@ -14,6 +14,7 @@ from cf_verify.base.base_test import base_test
 from cf_verify.base.top_env import top_env
 from cf_verify.bus_env.bus_regs import BusRegs
 from cf_verify.bus_env.bus_seq_lib import write_read_regs_seq, reset_seq
+from cf_verify.bus_env.bus_seq_lib import write_reg_seq, read_reg_seq
 from cf_verify.ip_env.ip_agent import ip_agent
 from cf_verify.ip_env.ip_driver import ip_driver
 from cf_verify.ip_env.ip_monitor import ip_monitor
@@ -44,6 +45,7 @@ class uart_env(top_env):
     def connect_phase(self):
         super().connect_phase()
         self.ip_agent.monitor.irq_ap.connect(self.ref_model.irq_analysis_export)
+        self.ip_agent.monitor.irq_ap.connect(self.scoreboard.irq_dut_export)
         self.bus_agent.monitor.ap.connect(self.ip_coverage.analysis_export)
 
 
@@ -91,8 +93,29 @@ class WriteReadRegsTest(uart_base_test):
 
     async def run_phase(self):
         self.raise_objection()
+        # Keep existing auto sequence for broad access stimulation.
         seq = write_read_regs_seq("write_read_regs")
         await seq.start(self.env.bus_agent.sequencer)
+
+        # Add strict local assertions so this test can never pass on log-only mismatches.
+        regs = ConfigDB().get(None, "", "bus_regs")
+        addr = regs.reg_name_to_address
+        for reg in regs.get_writable_regs():
+            if reg.name in ("IC", "GCLK") or reg.name.endswith("_FLUSH"):
+                continue
+            wr_val = (
+                0xA5 if reg.size <= 8
+                else 0xA5A5 if reg.size <= 16
+                else 0xDEAD_BEEF
+            ) & ((1 << reg.size) - 1)
+            await write_reg_seq("wr_chk", addr[reg.name], wr_val).start(self.env.bus_agent.sequencer)
+            rd = read_reg_seq("rd_chk", addr[reg.name])
+            await rd.start(self.env.bus_agent.sequencer)
+            rd_val = rd.result & ((1 << reg.size) - 1)
+            assert rd_val == wr_val, (
+                f"WriteReadRegsTest mismatch on {reg.name}: "
+                f"wrote 0x{wr_val:x}, read 0x{rd_val:x}"
+            )
         self.drop_objection()
 
 
@@ -117,12 +140,13 @@ class TX_StressTest(uart_base_test):
 
 @pyuvm.test()
 class RX_StressTest(uart_base_test):
-    """RX stress — sends many characters through the RX path."""
+    """RX stress — sends many characters through the RX path, reads back RXDATA."""
 
     async def run_phase(self):
         self.raise_objection()
         from seq_lib.uart_config import uart_config
         from cocotb.triggers import ClockCycles
+        from cf_verify.bus_env.bus_seq_lib import read_reg_seq
         config = uart_config("config")
         await config.start(self.env.bus_agent.sequencer)
 
@@ -133,7 +157,16 @@ class RX_StressTest(uart_base_test):
         regs = ConfigDB().get(None, "", "bus_regs")
         pr = regs.read_reg_value("PR")
         bit_cyc = (pr + 1) * 8
-        await ClockCycles(dut.CLK, bit_cyc * 14 * 2)
+        await ClockCycles(dut.CLK, bit_cyc * 14 * 8)
+
+        addr = regs.reg_name_to_address
+        rx_count = 0
+        for _ in range(6):
+            rd = read_reg_seq("rx_rd", addr["RXDATA"])
+            await rd.start(self.env.bus_agent.sequencer)
+            if rd.result is not None:
+                rx_count += 1
+        self.logger.info(f"RX stress: read back {rx_count} chars from RXDATA")
         self.drop_objection()
 
 
@@ -276,11 +309,21 @@ class GlitchFilterTest(uart_base_test):
         self.raise_objection()
         from seq_lib.uart_glitch_filter_seq import uart_glitch_filter_seq
         from seq_lib.uart_config import uart_config
+        from cf_verify.bus_env.bus_seq_lib import read_reg_seq
         ConfigDB().set(None, "*", "insert_glitches", True)
         config = uart_config("config", control=0x17, prescaler=1)
         await config.start(self.env.bus_agent.sequencer)
         seq = uart_glitch_filter_seq("glitch_test")
         await seq.start(self.env.ip_agent.sequencer)
+
+        regs = ConfigDB().get(None, "", "bus_regs")
+        addr = regs.reg_name_to_address
+        if "RX_FIFO_LEVEL" in addr:
+            rd = read_reg_seq("rx_lvl", addr["RX_FIFO_LEVEL"])
+            await rd.start(self.env.bus_agent.sequencer)
+            assert rd.result > 0, (
+                "GlitchFilterTest observed no RX captures after glitch-injected traffic"
+            )
         self.drop_objection()
 
 

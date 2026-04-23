@@ -28,7 +28,12 @@ class uart_item(uvm_sequence_item):
         )
 
     def do_compare(self, rhs):
-        return self.char == rhs.char and self.direction == rhs.direction
+        return (
+            self.char == rhs.char
+            and self.direction == rhs.direction
+            and self.word_length == rhs.word_length
+            and self.parity == rhs.parity
+        )
 
     def do_copy(self, rhs):
         super().do_copy(rhs)

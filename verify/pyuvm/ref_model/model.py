@@ -16,7 +16,7 @@ class CF_UART_Model(uvm_component):
         self.regs = ConfigDB().get(None, "", "bus_regs")
         self.tag = "CF_UART_Model"
         self.fifo_tx = _TxQueue(maxsize=16)
-        self.fifo_tx_threshold = True
+        self.fifo_tx_threshold = False
         self.fifo_rx = Queue(maxsize=16)
         self.fifo_rx_threshold = False
         self.tx_thread = None
@@ -36,28 +36,41 @@ class CF_UART_Model(uvm_component):
     def reset(self):
         self.regs.write_reg_value("PR", 0)
         self.fifo_tx = _TxQueue(maxsize=16)
-        self.fifo_tx_threshold = True
+        self.fifo_tx_threshold = False
         self.fifo_rx = Queue(maxsize=16)
         self.fifo_rx_threshold = False
         self.flags = _Flags(self.regs, self.tag)
+        self.flags.set_tx_empty()
 
     def write_register(self, addr, data):
         self.regs.write_reg_value(addr, data)
         reg_map = self.regs.reg_name_to_address
+        if addr == reg_map.get("IC", -1):
+            self.flags.clear_interrupts(data)
+            return
         if addr == reg_map.get("TXDATA", -1):
             word_mask = (1 << (self.regs.read_reg_value("CFG") & 0xF)) - 1
             try:
                 self.fifo_tx.put_nowait(data & word_mask)
                 self._check_tx_level_threshold()
-                if self.fifo_tx.full():
-                    self.flags.set_tx_full()
             except asyncio.QueueFull:
                 pass
         if addr == reg_map.get("CTRL", -1):
             self.event_control.set()
+        if addr == reg_map.get("IM", -1):
+            self.flags.sync_mis()
 
     def read_register(self, addr):
         reg_map = self.regs.reg_name_to_address
+        if addr in (reg_map.get("RIS", -1), reg_map.get("MIS", -1)):
+            # Keep dynamic flag semantics synchronized for status reads.
+            if self.fifo_tx.qsize() == 0:
+                self.flags.set_tx_empty()
+            self._check_tx_level_threshold()
+            self._check_rx_level_threshold()
+            self.flags.sync_mis()
+        if addr == reg_map.get("MIS", -1):
+            return self.regs.read_reg_value("ris") & self.regs.read_reg_value("im")
         if addr == reg_map.get("RXDATA", -1):
             try:
                 data = self.fifo_rx.get_nowait()
@@ -96,6 +109,8 @@ class CF_UART_Model(uvm_component):
             self.ip_export.write(tr)
             self.tx_trig_event.clear()
             await self.fifo_tx.get()
+            if self.fifo_tx.qsize() == 0:
+                self.flags.set_tx_empty()
 
             # Loopback
             if (self.regs.read_reg_value("CTRL") & 0xF) == 0xF:
@@ -147,22 +162,37 @@ class _Flags:
         self.tag = tag
         self.mis_changed = Event()
 
-    def _write_interrupt(self, mask, name=""):
-        self.regs.write_reg_value("ris", mask, mask=mask)
-        if (self.regs.read_reg_value("im") & mask == mask
-                and self.regs.read_reg_value("mis") & mask == 0):
-            self.regs.write_reg_value("mis", mask, mask=mask)
+    def sync_mis(self):
+        ris = self.regs.read_reg_value("ris") & 0x3FF
+        im = self.regs.read_reg_value("im") & 0x3FF
+        new_mis = ris & im
+        old_mis = self.regs.read_reg_value("mis") & 0x3FF
+        self.regs.write_reg_value("mis", new_mis)
+        if (old_mis == 0 and new_mis != 0) or (old_mis != 0 and new_mis == 0):
             self.mis_changed.set()
 
-    def set_rx_full(self): self._write_interrupt(0b1, "RX full")
-    def set_tx_full(self): self._write_interrupt(0b10, "TX full")
-    def set_rx_above_threshold(self): self._write_interrupt(0b100, "RX above threshold")
-    def set_tx_below_threshold(self): self._write_interrupt(0b1000, "TX below threshold")
-    def set_line_break(self): self._write_interrupt(0b10000, "Line break")
-    def set_data_match(self): self._write_interrupt(0b100000, "Data match")
-    def set_frame_err(self): self._write_interrupt(0b1000000, "Frame error")
-    def set_parity_err(self): self._write_interrupt(0b10000000, "Parity error")
-    def set_overrun_err(self): self._write_interrupt(0b100000000, "Overrun error")
+    def _write_interrupt(self, mask, name=""):
+        self.regs.write_reg_value("ris", mask, mask=mask)
+        self.sync_mis()
+
+    def clear_interrupts(self, ic_mask):
+        ic_mask &= 0x3FF
+        if ic_mask == 0:
+            return
+        ris = self.regs.read_reg_value("ris") & 0x3FF
+        self.regs.write_reg_value("ris", ris & ~ic_mask)
+        self.sync_mis()
+
+    # Bit mapping follows YAML/RTL: TXE,RXF,TXB,RXA,BRK,MATCH,FE,PRE,OR,RTO.
+    def set_tx_empty(self): self._write_interrupt(0b0000000001, "TX empty")
+    def set_rx_full(self): self._write_interrupt(0b0000000010, "RX full")
+    def set_tx_below_threshold(self): self._write_interrupt(0b0000000100, "TX below threshold")
+    def set_rx_above_threshold(self): self._write_interrupt(0b0000001000, "RX above threshold")
+    def set_line_break(self): self._write_interrupt(0b0000010000, "Line break")
+    def set_data_match(self): self._write_interrupt(0b0000100000, "Data match")
+    def set_frame_err(self): self._write_interrupt(0b0001000000, "Frame error")
+    def set_parity_err(self): self._write_interrupt(0b0010000000, "Parity error")
+    def set_overrun_err(self): self._write_interrupt(0b0100000000, "Overrun error")
     def set_timeout_err(self): self._write_interrupt(0b1000000000, "Timeout error")
 
 

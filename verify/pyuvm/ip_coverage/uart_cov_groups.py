@@ -8,7 +8,8 @@ from ip_item.uart_item import uart_item
 
 UART_FIELD_BINS = {
     ("CFG", "wlen"): [(v, v) for v in [5, 6, 7, 8, 9]],
-    ("CFG", "parity"): [(v, v) for v in [0, 1, 2, 4, 5]],
+    # Include reserved encodings to prevent hidden unverified modes.
+    ("CFG", "parity"): [(v, v) for v in [0, 1, 2, 3, 4, 5, 6, 7]],
     ("CFG", "timeout"): [(0, 7), (8, 15), (16, 31), (32, 63)],
     ("PR", None): [(0, 3), (4, 15)],
     ("MATCH", None): [(0, 0x3F), (0x40, 0xFF), (0x100, 0x1FF)],
@@ -38,13 +39,15 @@ class uart_cov_groups:
         self.char_cov = self._char_coverage()
         self.error_cov = self._error_coverage()
         self.mode_cov = self._mode_coverage()
+        self.fifo_full_cov = self._fifo_full_coverage()
 
         self._init_sample(None)
 
     def _init_sample(self, tr):
         """Cold-start: register all CoverPoints without actually counting."""
         @self._apply_decorators(
-            self.auto_points + self.char_cov + self.error_cov + self.mode_cov
+            self.auto_points + self.char_cov + self.error_cov
+            + self.mode_cov + self.fifo_full_cov
         )
         def _cold(tr):
             pass
@@ -52,7 +55,8 @@ class uart_cov_groups:
     def sample(self, tr):
         """Sample everything using a uart_item (real or synthetic)."""
         @self._apply_decorators(
-            self.auto_points + self.char_cov + self.error_cov + self.mode_cov
+            self.auto_points + self.char_cov + self.error_cov
+            + self.mode_cov + self.fifo_full_cov
         )
         def _s(tr):
             pass
@@ -66,7 +70,9 @@ class uart_cov_groups:
             if rname:
                 self.regs._reg_values[rname.lower()] = tr.data
 
-        @self._apply_decorators(self.auto_points + self.error_cov + self.mode_cov)
+        @self._apply_decorators(
+            self.auto_points + self.error_cov + self.mode_cov + self.fifo_full_cov
+        )
         def _bus(tr):
             pass
         _bus(tr)
@@ -75,10 +81,15 @@ class uart_cov_groups:
                 and tr.addr == self.txdata_addr
                 and tr.kind == bus_item.WRITE):
             self.sample(self._synth(tr.data, uart_item.TX))
+        # RX semantic coverage is primarily sampled from real monitor uart_item
+        # traffic. If that path is unavailable, allow RXDATA-read synthesis only
+        # when there is evidence that RX FIFO is non-empty.
         elif (self.rxdata_addr is not None
               and tr.addr == self.rxdata_addr
               and tr.kind == bus_item.READ):
-            self.sample(self._synth(tr.data, uart_item.RX))
+            rx_lvl = self.regs.read_reg_value("RX_FIFO_LEVEL")
+            if rx_lvl > 0 or tr.data != 0:
+                self.sample(self._synth(tr.data, uart_item.RX))
 
     def _synth(self, data, direction):
         """Build a synthetic uart_item from bus data + current CFG state."""
@@ -155,6 +166,23 @@ class uart_cov_groups:
                 f"{self.hierarchy}.StopBits",
                 xf=lambda tr: (self.regs.read_reg_value("CFG") >> 4) & 1,
                 bins=[0, 1], bins_labels=["one_stop", "two_stop"], at_least=1,
+            ),
+        ]
+
+    def _fifo_full_coverage(self):
+        return [
+            CoverPoint(
+                f"{self.hierarchy}.fifo.RX_FIFO.full",
+                xf=lambda tr: 1 if (
+                    ((self.regs.read_reg_value("RIS") >> 1) & 1)
+                    or (self.regs.read_reg_value("RX_FIFO_LEVEL") == 15)
+                ) else 0,
+                bins=[1], bins_labels=["full"], at_least=1,
+            ),
+            CoverPoint(
+                f"{self.hierarchy}.fifo.TX_FIFO.full",
+                xf=lambda tr: self.regs.read_reg_value("TX_FIFO_LEVEL"),
+                bins=[15], bins_labels=["full"], at_least=1,
             ),
         ]
 

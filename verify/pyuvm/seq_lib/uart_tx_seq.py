@@ -5,7 +5,7 @@ import random
 
 from pyuvm import uvm_sequence, ConfigDB
 
-from cf_verify.bus_env.bus_seq_lib import write_reg_seq
+from cf_verify.bus_env.bus_seq_lib import write_reg_seq, reset_seq
 from seq_lib.uart_config import uart_config
 
 
@@ -15,6 +15,7 @@ class uart_tx_seq(uvm_sequence):
         self.monitor = None
 
     async def body(self):
+        await reset_seq("rst").start(self.sequencer)
         regs = ConfigDB().get(None, "", "bus_regs")
         addr = regs.reg_name_to_address
 

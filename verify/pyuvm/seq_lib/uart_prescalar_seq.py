@@ -6,7 +6,7 @@ import cocotb
 from cocotb.triggers import Event
 from pyuvm import uvm_sequence, ConfigDB
 
-from cf_verify.bus_env.bus_seq_lib import write_reg_seq
+from cf_verify.bus_env.bus_seq_lib import write_reg_seq, reset_seq
 from seq_lib.uart_config import uart_config
 from ip_item.uart_item import uart_item
 
@@ -40,6 +40,7 @@ class uart_prescalar_seq_wrapper(uvm_sequence):
         self.monitor = None
 
     async def body(self):
+        await reset_seq("rst").start(self.sequencer)
         regs = ConfigDB().get(None, "", "bus_regs")
         addr = regs.reg_name_to_address
 

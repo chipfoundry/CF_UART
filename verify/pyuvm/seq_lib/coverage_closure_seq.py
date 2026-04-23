@@ -4,7 +4,7 @@ import cocotb
 from cocotb.triggers import ClockCycles
 from pyuvm import uvm_sequence, ConfigDB
 
-from cf_verify.bus_env.bus_seq_lib import write_reg_seq, read_reg_seq
+from cf_verify.bus_env.bus_seq_lib import write_reg_seq, read_reg_seq, reset_seq
 
 CHAR_REPS = {
     5: [4, 12, 20, 28],
@@ -19,6 +19,7 @@ TIMEOUT_VALS = [3, 10, 20, 40]
 
 class coverage_closure_seq(uvm_sequence):
     async def body(self):
+        await reset_seq("rst").start(self.sequencer)
         regs = ConfigDB().get(None, "", "bus_regs")
         self.addr = regs.reg_name_to_address
         self.dut = ConfigDB().get(None, "", "DUT")
@@ -93,22 +94,24 @@ class coverage_closure_seq(uvm_sequence):
     # ── Phase 2: CFG crosses + TX char + TX parity ─────────────────────
 
     async def _cfg_cross_and_tx(self):
-        t_idx = 0
+        parity_cfg_vals = [0, 1, 2, 3, 4, 5, 6, 7]
+        parity_semantic_vals = [0, 1, 2, 4, 5]
         for wlen in [5, 6, 7, 8, 9]:
             chars = CHAR_REPS[wlen]
             mask = (1 << wlen) - 1
 
-            for parity in [0, 1, 2, 4, 5]:
+            # Close CFG field and cross bins, including reserved parity encodings.
+            for parity in parity_cfg_vals:
                 for stp2 in [0, 1]:
-                    timeout = TIMEOUT_VALS[t_idx % 4]
-                    t_idx += 1
-                    cfg = wlen | (stp2 << 4) | (parity << 5) | (timeout << 8)
-                    await self._setup(1, cfg, 0x07)
+                    for timeout in TIMEOUT_VALS:
+                        cfg = wlen | (stp2 << 4) | (parity << 5) | (timeout << 8)
+                        await self._setup(1, cfg, 0x07)
 
-                    odd_char = 1 & mask
-                    even_char = 3 & mask
-                    await self._w("tx0", "TXDATA", odd_char)
-                    await self._w("tx1", "TXDATA", even_char)
+                        if parity in parity_semantic_vals:
+                            odd_char = 1 & mask
+                            even_char = 3 & mask
+                            await self._w("tx0", "TXDATA", odd_char)
+                            await self._w("tx1", "TXDATA", even_char)
 
             # Per-wlen: fill every TX Char bin
             cfg_base = wlen | (0x3F << 8)
