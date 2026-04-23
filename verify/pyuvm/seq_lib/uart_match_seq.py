@@ -1,5 +1,7 @@
 """UART match sequence — verifies data match interrupt fires on match."""
 
+import os
+
 from pyuvm import uvm_sequence, ConfigDB
 
 from cf_verify.bus_env.bus_seq_lib import write_reg_seq, read_reg_seq, reset_seq
@@ -53,6 +55,9 @@ class uart_match_seq(uvm_sequence):
             await ClockCycles(dut.CLK, frame_cyc * 2)
         ris = await read_reg("RIS")
         assert int(ris) & (1 << match_b), f"MATCH flag not set in RIS (0x{int(ris):03x})"
+
+        if os.environ.get("SIM", "").lower() == "verilator":
+            await ClockCycles(dut.CLK, frame_cyc * 2)
 
         # Read back RX data
         rx0 = await read_reg("RXDATA")

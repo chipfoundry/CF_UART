@@ -1,5 +1,6 @@
 """UART loopback sequence — enables loopback, sends TX data, reads RX data."""
 
+import os
 import random
 
 from pyuvm import uvm_sequence, ConfigDB
@@ -47,7 +48,12 @@ class uart_loopback_seq(uvm_sequence):
                 sent_data.append(data)
                 await write_reg_seq("tx_wr", addr["TXDATA"], data).start(self.sequencer)
 
-            if "RX_FIFO_LEVEL" in addr:
+            vlt = os.environ.get("SIM", "").lower() == "verilator"
+            if vlt:
+                await ClockCycles(
+                    dut.CLK, bit_cyc * 12 * n_send * 48 + 20_000
+                )
+            elif "RX_FIFO_LEVEL" in addr:
                 for _ in range(500_000):
                     await ClockCycles(dut.CLK, 2)
                     rdl = read_reg_seq("rxlvl", addr["RX_FIFO_LEVEL"])
