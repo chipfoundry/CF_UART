@@ -1,10 +1,10 @@
 # CF_UART
 
 [![Verification](https://github.com/chipfoundry/CF_UART/actions/workflows/verify.yaml/badge.svg)](https://github.com/chipfoundry/CF_UART/actions/workflows/verify.yaml)
-![Tests](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/badges/verification.json)
-![Functional Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/badges/func-coverage.json)
-![Line Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/badges/line-coverage.json)
-![Branch Coverage](https://img.shields.io/endpoint?url=https://chipfoundry.github.io/CF_UART/badges/branch-coverage.json)
+![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/chipfoundry/CF_UART/gh-pages/badges/verification.json)
+![Functional Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/chipfoundry/CF_UART/gh-pages/badges/func-coverage.json)
+![Line Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/chipfoundry/CF_UART/gh-pages/badges/line-coverage.json)
+![Branch Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/chipfoundry/CF_UART/gh-pages/badges/branch-coverage.json)
 
 UART, or universal asynchronous receiver-transmitter, is one of the most used device-to-device communication protocols. A UART enables two devices to exchange data serially without sharing the clock in a frame oriented way. The frame consists of a start bit, a number of data bits (typically one byte), a parity bit (optional) and 1-2 stop bits.
 CF_UART is a Soft IP with the following features:
